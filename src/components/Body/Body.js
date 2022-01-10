@@ -1,5 +1,6 @@
 import { Formik, Field } from 'formik'
 import './Body.css'
+import axios from 'axios'
 
 const Body = () => {
     return(
@@ -9,77 +10,64 @@ const Body = () => {
 
                 initialValues={
                     {
-                        email: '',
-                        nombreCliente: '',
-                        nombreEmpresa: '',
-                        telefono: '',
-                        direccionEmpresa: '',
-                        mesas: 0,
-                        pax: 0,
+                        nomcom_emp: '',
+                        dircom_emp: '',
+                        mesas_qty: 0,
+                        pax_qty: 0,
                     }
                 }
 
                 validate={values => {
                     const errors = {};
 
-                    // E-mail Validation
-                    if ( !values.email ) {
-                        errors.email = 'Requerido';
-                    } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                    ) {
-                        errors.email = 'Dirección de correo inválida';
-                    }
-
-                    // Nombre del cliente
-                    if ( !values.nombreCliente ) {
-                        errors.nombreCliente = 'Requerido';
-                    } else if (
-                        !/^([a-záéíóú'´üñ]|\s){3,50}$/i.test(values.nombreCliente)
-                    ) {
-                        errors.nombreCliente = 'Se permiten de 3 a 50 caracteres, únicamente letras y espacios.';
-                    }
-
                     // Nombre de Empresa o Sucursal
-                    if ( !values.nombreEmpresa ) {
-                        errors.nombreEmpresa = 'Requerido';
+                    if ( !values.nomcom_emp ) {
+                        errors.nomcom_emp = 'Requerido';
                     } else if (
-                        !/^([a-z]|\d|\s){3,50}$/i.test(values.nombreEmpresa)
+                        !/^([a-z]|\d|\s){3,50}$/i.test(values.nomcom_emp)
                     ) {
-                        errors.nombreEmpresa = 'Se permiten de 3 a 50 caracteres, únicamente letras, números y espacios.';
-                    }
-
-                    // Teléfono de Contacto
-                    if ( !values.telefono ) {
-                        errors.telefono = 'Requerido';
-                    } else if (
-                        !/(?:(\+1)[ -])?\(?(?<areacode>\d{3})\)?[ -]?(\d{3})[ -]?(\d{4})/gm.test(values.telefono)
-                    ) {
-                        errors.telefono = 'Formato inválido para un número telefónico.';
+                        errors.nomcom_emp = 'Se permiten de 3 a 50 caracteres, únicamente letras, números y espacios.';
                     }
 
                     // Dirección de la Empresa o Sucursal
                     if (
-                        !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.direccionEmpresa)
+                        !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dircom_emp)
                     ) {
-                        errors.direccionEmpresa = 'La dirección no debe tener símbolos inválidos y debe ser entre 3 y 150 caracteres.';
+                        errors.dircom_emp = 'La dirección no debe tener símbolos inválidos y debe ser entre 3 y 150 caracteres.';
                     }
 
                     // Mesas
                     if (
-                        !/^(\d){0,3}$/i.test(values.mesas)
+                        !/^(\d){0,3}$/i.test(values.mesas_qty)
                     ) {
-                        errors.mesas = 'Se permiten de 0 a 300 mesas.';
+                        errors.mesas_qty = 'Se permite un valor de 0 a 300.';
+                    }
+
+                    // PAX
+                    if (
+                        !/^(\d){0,3}$/i.test(values.pax_qty)
+                    ) {
+                        errors.pax_qty = 'Se permite un valor de 0 a 2000.';
                     }
 
                     return errors;
                 }}
 
-                onSubmit={ (values, {setSubmitting}) => {
+                onSubmit={ async (values, {setSubmitting}) => {
+
+                    try {
+                        const response = await axios.post( 'https://venka.app/api/nueva-empresa/', values )    
+                    } catch (error) {
+                        console.error(error)
+                    }
+                    
+
+                    /*
                     setTimeout( () => {
                         alert(JSON.stringify(values, null, 2));
                         setSubmitting(false);
                     }, 400 );
+                    */
                 }}
 
             >
@@ -88,43 +76,7 @@ const Body = () => {
                 
                 <form onSubmit={handleSubmit} className='col-12 col-lg-6 text-center'>
 
-                    {/**
-                     * INPUT-EMAIL
-                     * Correo Electrónico
-                    */}
-                    <div className='form-group text-left mb-3'>
-                        <label htmlFor='inputEmail'>Correo electrónico <span className='text-red'>*</span></label>
-                        <input
-                            className='form-control'
-                            id="inputEmail"
-                            type="email"
-                            name="email"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.email}
-                        />
-                        <small className='form-text text-muted'>Éste será su <strong>Nombre de Usuario</strong> para ingresar en la aplicación y ver las ventas de sus negocios.</small>
-                    { errors.email && initialTouched.email && errors.email }
-                    </div>
-
-                    {/**
-                     * INPUT-TEXT
-                     * Nombre Personal del Usuario
-                    */}
-                    <div className='form-group text-left mb-3'>
-                        <label htmlFor='inputNombreCliente'>Nombre y Apellidos <span className='text-red'>*</span></label>
-                        <input
-                            className='form-control'
-                            id="inputNombreCliente"
-                            type="text"
-                            name="nombreCliente"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.nombreCliente}
-                        />
-                        <small className='form-text text-muted'>El nombre del usuario principal de la cuenta.</small>
-                    { errors.nombreCliente && initialTouched.nombreCliente && errors.nombreCliente }
-                    </div>
+                    
 
                     {/**
                      * INPUT-TEXT
@@ -136,13 +88,13 @@ const Body = () => {
                             className='form-control'
                             id="inputNombreEmpresa"
                             type="text"
-                            name="nombreEmpresa"
+                            name="nomcom_emp"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.nombreEmpresa}
+                            value={values.nomcom_emp}
                         />
                         <small className='form-text text-muted'>El nombre de su empresa, sucursal o establecimiento.</small>
-                    { errors.nombreEmpresa && initialTouched.nombreEmpresa && errors.nombreEmpresa }
+                    { errors.nomcom_emp && initialTouched.nomcom_emp && errors.nomcom_emp }
                     </div>
 
                     {/**
@@ -159,13 +111,13 @@ const Body = () => {
                                     <input
                                         id='inputMesas'
                                         className='form-control'
-                                        name='mesas'
+                                        name='mesas_qty'
                                         type='number'
                                         min='0'
                                         max='300'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.mesas}
+                                        value={values.mesas_qty}
                                     />
 
                                 </div>
@@ -175,13 +127,13 @@ const Body = () => {
                                         <input
                                             id='inputPax'
                                             className='form-control'
-                                            name='pax'
+                                            name='pax_qty'
                                             type='number'
                                             min='0'
                                             max='2000'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.pax}
+                                            value={values.pax_qty}
                                         />
                                 </div>
                                 
@@ -194,25 +146,6 @@ const Body = () => {
                     </div>
 
                     {/**
-                     * INPUT-TEXT
-                     * Teléfono de contacto
-                    */}
-                    <div className='form-group text-left mb-3'>
-                        <label htmlFor='inputTelefono'>Teléfono de contacto<span className='text-red'>*</span></label>
-                        <input
-                            className='form-control'
-                            id="inputTelefono"
-                            type="tel"
-                            name="telefono"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.telefono}
-                        />
-                        <small className='form-text text-muted'>Número telefónico para ponernos en contacto con usted o su negocio.</small>
-                    { errors.telefono && initialTouched.telefono && errors.telefono }
-                    </div>
-
-                    {/**
                      * FIELD - TEXTAREA
                      * Dirección del establecimiento.
                      */}
@@ -221,18 +154,18 @@ const Body = () => {
                         <Field
                             className='form-control'
                             id="inputDireccion"
-                            name="direccionEmpresa"
+                            name="dircom_emp"
                             component="textarea"
                             rows="4"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.direccionEmpresa}
+                            value={values.dircom_emp}
                         ></Field>
                         <small className='form-text text-muted'>Calle, Número, Colonia, Código Postal, Ciudad y Estado.</small>
-                    { errors.direccionEmpresa && initialTouched.direccionEmpresa && errors.direccionEmpresa }
+                    { errors.dircom_emp && initialTouched.dircom_emp && errors.dircom_emp }
                     </div>
 
-                    <button className='btn btn-primary my-3' disabled={isSubmitting} onKeyDown={handleSubmit}>
+                    <button className='btn btn-primary my-3' disabled={isSubmitting} type='submit'>
                         Enviar
                     </button>
 
