@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Header
         title="Venka"
-        subtitle="Formulario de Alta de Nueva Empresa o Sucursal"
+        subtitle="Registro de Nueva Cuenta y Empresa."
       />
       <Body/>
     </div>
