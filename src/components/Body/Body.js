@@ -56,7 +56,7 @@ const Body = () => {
                 onSubmit={ async (values, {setSubmitting}) => {
 
                     try {
-                        const response = await axios.post( 'https://venka.app/api/nueva-empresa/', values )    
+                        const response = await axios.post( 'https://venka.app/api/nueva-empresa/', values )
                     } catch (error) {
                         console.error(error)
                     }
