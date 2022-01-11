@@ -1,15 +1,22 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
-import Body from './components/Body/Body';
+import Index from './pages/Index';
+import NuevaEmpresa from './pages/NuevaEmpresa';
 
 function App() {
   return (
     <div className="App">
       <Header
         title="Venka"
-        subtitle="Registro de Nueva Cuenta y Empresa."
+        subtitle="Panel de Usuario"
+        description="Bienvenido, aquí podrá ver y administrar sus empresas, así como renovar la suscripción de cada una de ellas."
       />
-      <Body/>
+
+      <Routes>
+        <Route path="/" element={ <Index/> } />
+        <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
+      </Routes>
     </div>
   );
 }
