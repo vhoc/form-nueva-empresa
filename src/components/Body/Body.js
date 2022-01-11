@@ -53,13 +53,30 @@ const Body = () => {
                     return errors;
                 }}
 
-                onSubmit={ async (values, {setSubmitting}) => {
+                onSubmit={ (values, {setSubmitting}) => {
+                    axios.defaults.withCredentials = true;
 
+                    axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
+                        axios.post('https://venka.app/api/nueva-empresa/', values, {
+                            xsrfHeaderName: "X-XSRF-TOKEN",
+                        }).then( response => {
+                            if (response.data.error) {
+                                console.warn(response.data.error)
+                            } else {
+                                console.log('success')
+                            }
+                        } )
+                    } )
+
+                    /*
                     try {
-                        const response = await axios.post( 'https://venka.app/api/nueva-empresa/', values )
+                        const response = axios.post( 'https://venka.app/api/nueva-empresa/', values, {
+                            xsrfHeaderName: "X-XSRF-TOKEN",
+                            withCredentials: false
+                        } );
                     } catch (error) {
                         console.error(error)
-                    }
+                    }*/
                     
 
                     /*
