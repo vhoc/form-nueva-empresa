@@ -14,6 +14,8 @@ const Body = () => {
                         dircom_emp: '',
                         mesas_qty: 0,
                         pax_qty: 0,
+                        status_emp: 0,
+                        id_cliente: 0,
                     }
                 }
 
@@ -68,28 +70,12 @@ const Body = () => {
                         } )
                     } )
 
-                    /*
-                    try {
-                        const response = axios.post( 'https://venka.app/api/nueva-empresa/', values, {
-                            xsrfHeaderName: "X-XSRF-TOKEN",
-                            withCredentials: false
-                        } );
-                    } catch (error) {
-                        console.error(error)
-                    }*/
                     
-
-                    /*
-                    setTimeout( () => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400 );
-                    */
                 }}
 
             >
 
-            { ({ values, errors, initialTouched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
+            { ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
                 
                 <form onSubmit={handleSubmit} className='col-12 col-lg-6 text-center'>
 
@@ -111,7 +97,7 @@ const Body = () => {
                             value={values.nomcom_emp}
                         />
                         <small className='form-text text-muted'>El nombre de su empresa, sucursal o establecimiento.</small>
-                    { errors.nomcom_emp && initialTouched.nomcom_emp && errors.nomcom_emp }
+                    { errors.nomcom_emp && touched.nomcom_emp && errors.nomcom_emp }
                     </div>
 
                     {/**
@@ -179,7 +165,7 @@ const Body = () => {
                             value={values.dircom_emp}
                         ></Field>
                         <small className='form-text text-muted'>Calle, Número, Colonia, Código Postal, Ciudad y Estado.</small>
-                    { errors.dircom_emp && initialTouched.dircom_emp && errors.dircom_emp }
+                    { errors.dircom_emp && touched.dircom_emp && errors.dircom_emp }
                     </div>
 
                     <button className='btn btn-primary my-3' disabled={isSubmitting} type='submit'>
