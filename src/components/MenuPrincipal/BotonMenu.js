@@ -8,7 +8,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
     const logOut = () => {
         console.log('intentando logout')
         console.log(localStorage.getItem('token'))
-        axios.post('https://venka.app/api/logout', {
+        axios.get('https://venka.app/api/logout', {
             headers: {
                 'Authorization': localStorage.getItem('token'),
             }
