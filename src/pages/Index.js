@@ -12,17 +12,17 @@ const Index = () => {
 
         console.log( "Validating token... ah! got cha!" )
         try {
-            const response = await axios.get('https://venka.app/api/validateToken', { 
+            await axios.get('https://venka.app/api/validateToken', { 
                 headers: {
                     'Authorization': token,
                     'Accept': 'application/json',
                 }
             })
-            console.log(response)
+            console.log("Authentication Successful")
         } catch ( error ) {
-            console.log(error)
+            console.log("Invalid Token, You shall not pass.")
             localStorage.clear()
-            //redirect('/login', { replace: true })
+            redirect('/login', { replace: true })
         }
 
     }

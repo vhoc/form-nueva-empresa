@@ -9,14 +9,12 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
     const redirectTo = useNavigate()
 
     const logOut = () => {
-        console.log('intentando logout')
-        console.log(localStorage.getItem('token'))
         axios.get('https://venka.app/api/logout', {
             headers: {
                 'Authorization': localStorage.getItem('token'),
             }
-        }).then( response => {
-            console.log(response)
+        }).then( () => {
+            console.log("Logout Successful")
          }).catch(error => {
              console.error(error)
          }).finally( () =>{
