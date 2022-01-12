@@ -9,7 +9,7 @@ const EmpresasTable = () => {
             
             <BarraTitulo titulo="Empresas" botonNuevo={true} />
 
-            <div className='d-flex justify-content-center p-3 m-2 card text-center table-responsive'>
+            <div className='d-flex justify-content-center p-3 m-3 card text-center table-responsive'>
 
                 <table className="table table-striped col-12">
                     <thead>
