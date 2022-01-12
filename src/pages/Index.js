@@ -10,10 +10,14 @@ const Index = () => {
         console.log( "Validating token... ah! got cha!" )
         try {
             const response = await axios.get('https://venka.app/api/validateToken', { 
-                headers: { 'Authorization': token }
+                headers: {
+                    'Authorization': token,
+                    'Accept': 'application/json',
+                }
             })
             console.log(response)
         } catch ( error ) {
+            console.log(error)
             localStorage.clear()
         }
 
