@@ -22,6 +22,9 @@ const LoginForm = ( {redirectRoute} ) => {
             axios.post('https://venka.app/api/login', credentials, {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
+                
+                console.log(response)
+                console.log(response.data)
                 console.log(response.data.status_code)
                 if (response.data.status_code === 400 ) {
                     Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
