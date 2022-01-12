@@ -28,8 +28,10 @@ const LoginForm = ( {redirectRoute} ) => {
                         .then( () => { return } )
                 }
                 if (response !== null) {
-                    localStorage.setItem('token', `Bearer ${response.token}`)
-                    //localStorage.setItem('location_name', `${response.name_location}`)
+                    localStorage.setItem('token', `Bearer ${response.data.token}`)
+                    localStorage.setItem('userId', response.data.user.id)
+                    localStorage.setItem('userEmail', response.data.user.email)
+                    localStorage.setItem('userName', response.data.user.name)
                     goTo( redirectRoute, {replace: true} )
                 }
             }).catch( error => {
