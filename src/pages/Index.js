@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import MenuPrincipal from "../components/MenuPrincipal/MenuPrincipal"
 import EmpresasTable from "../components/EmpresasTable/EmpresasTable"
 
 const Index = () => {
+
+    const redirect = useNavigate()
 
     const validateToken = async ( token ) => {
 
@@ -19,6 +22,7 @@ const Index = () => {
         } catch ( error ) {
             console.log(error)
             localStorage.clear()
+            redirect('/login', { replace: true })
         }
 
     }
