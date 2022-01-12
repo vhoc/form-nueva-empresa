@@ -18,7 +18,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
         <>
         <Button
             variant={variant}
-            onKeyUp={ logOut }
+            onClick={ logOut }
             className="boton-menu d-flex flex-column align-items-center justify-content-center"
         >
             <FontAwesomeIcon icon={ icon } />
