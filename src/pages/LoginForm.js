@@ -35,6 +35,7 @@ const LoginForm = ( {redirectRoute} ) => {
                     goTo( redirectRoute, {replace: true} )
                 }
             }).catch( error => {
+                console.log(error)
                 if (filledForm && error) {
                     switch (error.response.status) {
                         case 422: Swal.fire("Error", "Se requiere ingresar el usuario y la contraseña correctamente", "error" )
