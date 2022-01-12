@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 const LoginForm = ( {redirectRoute} ) => {
 
-    const [credentials, setCredentials] = useState({username: '', password: ''})
+    const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
     const fieldUsernameRef = useRef()
     const fieldPasswordRef = useRef()
