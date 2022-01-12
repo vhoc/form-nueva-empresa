@@ -18,14 +18,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
         <>
         <Button
             variant={variant}
-            onKeyUp={ event => {
-                if ( logoutBtn === true )
-                {
-                    logOut()
-                } else {
-                    event.preventDefault()
-                }
-            } }
+            onKeyUp={ logOut }
             className="boton-menu d-flex flex-column align-items-center justify-content-center"
         >
             <FontAwesomeIcon icon={ icon } />
