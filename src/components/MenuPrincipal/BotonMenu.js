@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './BotonMenu.css'
 import axios from "axios"
 
-const BotonMenu = ( {titulo, variant, icon, logoutBtn = false} ) => {
+const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
 
     const logOut = () => {
         console.log('intentando logout')
