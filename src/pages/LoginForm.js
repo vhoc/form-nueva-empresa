@@ -14,47 +14,47 @@ const LoginForm = ( {redirectRoute} ) => {
     const goTo = useNavigate()
 
     /**
-     * getToken
+     * doLogin
      */
-     const getToken = () => {
+     const doLogin = () => {
         axios.defaults.withCredentials = true;
         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
             axios.post('https://venka.app/api/login', credentials, {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
-                console.log(response)
-                if (response.data.status_code === 400 ) {
-                    Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
-                        .then( () => { return } )
-                }
-                if (response !== null) {
-                    localStorage.setItem('token', `Bearer ${response.data.token}`)
-                    localStorage.setItem('userId', response.data.user.id)
-                    localStorage.setItem('userEmail', response.data.user.email)
-                    localStorage.setItem('userName', response.data.user.name)
-                    goTo( redirectRoute, {replace: true} )
-                }
-            }).catch( error => {
-                console.log(error)
-                if (filledForm && error) {
-                    switch (error.response.status) {
-                        case 422: Swal.fire("Error", "Se requiere ingresar el usuario y la contraseña correctamente", "error" )
-                            break;
-                        case 401:
-                            Swal.fire("Error", "Se ha ingresado un usuario o contraseña incorrecto(s).", "error")
-                            break;
-                        default:
-                            Swal.fire("Error", `Error: (${error.message})`, "error")
-                            break;
+                if ( response.status === 200 ) {
+                    console.log(response)
+
+                    if (response.data.status_code === 400 ) {
+                        Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
+                            .then( () => { return } )
                     }
+
+                    if (response.data.status_code === 403) {
+                        Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
+                            .then( () => { return } )
+                    }
+
+                    if (response.data.status_code === 200 ) {
+                        localStorage.setItem('token', `Bearer ${response.data.token}`)
+                        localStorage.setItem('userId', response.data.user.id)
+                        localStorage.setItem('userEmail', response.data.user.email)
+                        localStorage.setItem('userName', response.data.user.name)
+                        goTo( redirectRoute, {replace: true} )
+                    }
+
                 }
+
+                Swal.fire('Error', 'Hubo un error al intentar ingresar, verifique su conexión')
+                return
+                
             })
         })
     }
 
     const onSubmit = event => {
         event.preventDefault()
-        getToken()
+        doLogin()
     }
 
 
