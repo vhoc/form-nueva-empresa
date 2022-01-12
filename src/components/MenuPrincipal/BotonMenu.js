@@ -1,9 +1,12 @@
 import { Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './BotonMenu.css'
 import axios from "axios"
 
 const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
+
+    const redirectTo = useNavigate()
 
     const logOut = () => {
         console.log('intentando logout')
@@ -16,7 +19,9 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
             console.log(response)
          }).catch(error => {
              console.error(error)
-         })
+         }).finally( () =>{
+            redirectTo( "/login" )
+         } )
     }
 
     return (
