@@ -8,7 +8,9 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
     const logOut = () => {
         console.log('intentando logout')
         axios.post('https://venka.app/api/logout', {
-                'Authorization': localStorage.getItem('token')
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            }
         }).then( response => {
             console.log(response)
         } )
@@ -18,7 +20,14 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
         <>
         <Button
             variant={variant}
-            onClick={ logOut }
+            onClick={ event => {
+                if ( logoutBtn === true )
+                {
+                    logOut()
+                } else {
+                    event.preventDefault()
+                }
+            } }
             className="boton-menu d-flex flex-column align-items-center justify-content-center"
         >
             <FontAwesomeIcon icon={ icon } />
