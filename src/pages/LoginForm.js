@@ -24,7 +24,7 @@ const LoginForm = ( {redirectRoute} ) => {
             }).then(response => {
                 console.log(response)
                 if (response.data.status_code === 400 ) {
-                    Swal.fire('Error de Validación', 'Hubo un error en los datos ingresados', 'error')
+                    Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
                         .then( () => { return } )
                 }
                 if (response !== null) {
