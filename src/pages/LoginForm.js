@@ -29,13 +29,13 @@ const LoginForm = ( {redirectRoute} ) => {
                 if (response.data.status_code === 400 ) {
                     console.warn("checando 400")
                     Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
-                        .then( () => { return } )
+                    return
                 }
 
                 if (response.data.status_code === 403) {
                     console.warn("checando 403")
                     Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
-                        .then( () => { return } )
+                    return
                 }
 
                 if (response.data.status_code === 200 ) {
