@@ -9,7 +9,7 @@ const LoginForm = ( {redirectRoute} ) => {
 
     const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
-    const fieldUsernameRef = useRef()
+    const fieldEmailRef = useRef()
     const fieldPasswordRef = useRef()
     const goTo = useNavigate()
 
@@ -56,9 +56,9 @@ const LoginForm = ( {redirectRoute} ) => {
 
 
     const handleInputValues = () => {
-        if (fieldPasswordRef.current.value && fieldUsernameRef.current.value) {
+        if (fieldPasswordRef.current.value && fieldEmailRef.current.value) {
             setCredentials({...credentials,
-                username: fieldUsernameRef.current.value,
+                email: fieldEmailRef.current.value,
                 password: fieldPasswordRef.current.value
            })
             setFilledForm(true)
@@ -76,9 +76,9 @@ const LoginForm = ( {redirectRoute} ) => {
 
                 <Form.Group className='mb-2'>
                     <Form.Control
-                        ref={fieldUsernameRef}
-                        type={'username'}
-                        placeholder={'Nombre de Usuario o E-mail'}
+                        ref={fieldEmailRef}
+                        type={'email'}
+                        placeholder={'E-mail'}
                         onChange={handleInputValues}
                     />
                 </Form.Group>
