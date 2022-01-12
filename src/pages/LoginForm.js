@@ -22,32 +22,30 @@ const LoginForm = ( {redirectRoute} ) => {
             axios.post('https://venka.app/api/login', credentials, {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
-                if ( response.status === 200 ) {
-                    console.log(response)
-
-                    if (response.data.status_code === 400 ) {
-                        Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
-                            .then( () => { return } )
-                    }
-
-                    if (response.data.status_code === 403) {
-                        Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
-                            .then( () => { return } )
-                    }
-
-                    if (response.data.status_code === 200 ) {
-                        localStorage.setItem('token', `Bearer ${response.data.token}`)
-                        localStorage.setItem('userId', response.data.user.id)
-                        localStorage.setItem('userEmail', response.data.user.email)
-                        localStorage.setItem('userName', response.data.user.name)
-                        goTo( redirectRoute, {replace: true} )
-                    }
-
+                if (response.data.status_code === 400 ) {
+                    Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
+                        .then( () => { return } )
                 }
 
-                Swal.fire('Error', 'Hubo un error al intentar ingresar, verifique su conexión')
+                if (response.data.status_code === 403) {
+                    Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
+                        .then( () => { return } )
+                }
+
+                if (response.data.status_code === 200 ) {
+                    localStorage.setItem('token', `Bearer ${response.data.token}`)
+                    localStorage.setItem('userId', response.data.user.id)
+                    localStorage.setItem('userEmail', response.data.user.email)
+                    localStorage.setItem('userName', response.data.user.name)
+                    goTo( redirectRoute, {replace: true} )
+                }
+
+                Swal.fire('Error', 'Hubo un error al intentar ingresar.', 'error')
                 return
                 
+            }).catch( () => {
+                Swal.fire('Error', 'Hubo un error al intentar ingresar, verifique su conexión a internet', 'error')
+                return
             })
         })
     }
