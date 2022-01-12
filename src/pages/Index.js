@@ -22,7 +22,7 @@ const Index = () => {
         } catch ( error ) {
             console.log(error)
             localStorage.clear()
-            redirect('/login', { replace: true })
+            //redirect('/login', { replace: true })
         }
 
     }
