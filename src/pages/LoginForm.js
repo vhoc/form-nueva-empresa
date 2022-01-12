@@ -22,6 +22,7 @@ const LoginForm = ( {redirectRoute} ) => {
             axios.post('https://venka.app/api/login', credentials, {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
+                console.log(response)
                 if (response !== null) {
                     localStorage.setItem('token', `Bearer ${response.token}`)
                     //localStorage.setItem('location_name', `${response.name_location}`)
