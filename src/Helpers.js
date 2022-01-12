@@ -39,6 +39,7 @@ export const logOut = () => {
         }
     }).then( () => {
         console.log("Logout Successful")
+        localStorage.clear()
         return true
      }).catch(error => {
          console.error(error)
