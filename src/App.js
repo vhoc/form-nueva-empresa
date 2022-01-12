@@ -16,7 +16,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={ <Index/> } />
-        <Route path="/login" element={ <LoginForm redirectRoute="/" /> } />
+        <Route path="login" element={ <LoginForm redirectRoute="/" /> } />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
       </Routes>
     </div>
