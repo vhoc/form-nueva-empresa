@@ -23,6 +23,10 @@ const LoginForm = ( {redirectRoute} ) => {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
                 console.log(response)
+                if (response.data.status_code === 400 ) {
+                    Swal.fire('Error de Validación', 'Hubo un error en los datos ingresados', 'error')
+                        .then( () => { return } )
+                }
                 if (response !== null) {
                     localStorage.setItem('token', `Bearer ${response.token}`)
                     //localStorage.setItem('location_name', `${response.name_location}`)
