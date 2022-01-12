@@ -22,24 +22,18 @@ const LoginForm = ( {redirectRoute} ) => {
             axios.post('https://venka.app/api/login', credentials, {
                     xsrfHeaderName: "X-XSRF-TOKEN",            
             }).then(response => {
-                
-                console.log(response)
-                console.log(response.data)
-                console.log(response.data.status_code)
+
                 if (response.data.status_code === 400 ) {
-                    console.warn("checando 400")
                     Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
                     return
                 }
 
                 if (response.data.status_code === 403) {
-                    console.warn("checando 403")
                     Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
                     return
                 }
 
                 if (response.data.status_code === 200 ) {
-                    console.warn("checando 200")
                     localStorage.setItem('token', `Bearer ${response.data.token}`)
                     localStorage.setItem('userId', response.data.user.id)
                     localStorage.setItem('userEmail', response.data.user.email)
@@ -47,7 +41,6 @@ const LoginForm = ( {redirectRoute} ) => {
                     
                     return goTo( redirectRoute, {replace: true} )
                 }
-                console.warn("me vale verga la vida")
                 Swal.fire('Error', 'Hubo un error al intentar ingresar.', 'error')
                 return
                 

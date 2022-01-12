@@ -10,7 +10,6 @@ const Index = () => {
 
     const validateToken = async ( token ) => {
 
-        console.log( "Validating token... ah! got cha!" )
         try {
             await axios.get('https://venka.app/api/validateToken', { 
                 headers: {
