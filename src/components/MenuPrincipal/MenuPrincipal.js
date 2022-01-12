@@ -11,6 +11,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 const MenuPrincipal = () => {
 
     const logOut = () => {
+        console.log('intentando logout')
         axios.get('https://venka.app/api/logout', {
             headers: {
                 'Authorization': localStorage.getItem('token'),
