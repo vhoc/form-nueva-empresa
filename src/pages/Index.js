@@ -10,6 +10,7 @@ import { NavItem } from 'react-bootstrap'
 const Index = () => {
 
     const redirect = useNavigate()
+    
 /*
     const validateToken = async ( token ) => {
 
@@ -58,6 +59,8 @@ const Index = () => {
 
         )
     }
+
+    logOut()
     
     return (
         <Navigate to={"/login"} />
