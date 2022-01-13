@@ -18,13 +18,14 @@ const EmpresasTable = () => {
             })
             //console.log(response.data)
             setEmpresas( await response.data )
+            console.log(empresas)
 
         } catch ( error ) {
             console.log(error)
         }
     }
 
-    useEffect( () =>  { getEmpresas() }, [])
+    useEffect( () =>  { getEmpresas() }, [empresas])
 
     return (
 
