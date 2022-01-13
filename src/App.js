@@ -16,9 +16,9 @@ function App() {
       />
 
       <Routes>
-        <Route path="/panel" element={
+        <Route path="/" element={
           <RequireAuth redirectTo="login">
-          <Route path="/" element={ <Index/> } />
+            <Index/>
           </RequireAuth>
         }/>
         
