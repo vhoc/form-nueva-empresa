@@ -59,12 +59,15 @@ const Index = () => {
 
         )
     }
-
-    logOut()
+    else {
+        logOut()
     
-    return (
-        <Navigate to={"/login"} />
-    )
+        return (
+            <Navigate to={"/login"} />
+        )
+    }
+
+    
 
 
     
