@@ -78,54 +78,50 @@ const LoginForm = ( {redirectRoute} ) => {
         localStorage.clear()
         return ( <Navigate to="/"/> )
     }*/
-
     //if ( auth === true ) return ( <Navigate to="/"/> )
 
+    useEffect(() => {
+        if ( auth === false ) {
+            return <Navigate to="/" />
+        }
+    }, [auth])
+
     return (
+        <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
+            <h3>Acceso</h3>
+            <div className='col-8 col-md-6 col-lg-4 col-xl-3'>
+            <Form onSubmit={onSubmit}>
 
-        <>
-            { auth === false ? <Navigate to="/" /> :
-            
-            <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
-            
-                <h3>Acceso</h3>
-                <div className='col-8 col-md-6 col-lg-4 col-xl-3'>
-                <Form onSubmit={onSubmit}>
+                <Form.Group className='mb-2'>
+                    <Form.Control
+                        ref={fieldEmailRef}
+                        type={'email'}
+                        placeholder={'E-mail'}
+                        onChange={handleInputValues}
+                    />
+                </Form.Group>
+                
+                <Form.Group className='mb-2'>
+                    <Form.Control
+                        ref={fieldPasswordRef}
+                        type={'password'}
+                        placeholder={'Contraseña'}
+                        onChange={handleInputValues}
+                    />
+                </Form.Group>
 
-                    <Form.Group className='mb-2'>
-                        <Form.Control
-                            ref={fieldEmailRef}
-                            type={'email'}
-                            placeholder={'E-mail'}
-                            onChange={handleInputValues}
-                        />
-                    </Form.Group>
-                    
-                    <Form.Group className='mb-2'>
-                        <Form.Control
-                            ref={fieldPasswordRef}
-                            type={'password'}
-                            placeholder={'Contraseña'}
-                            onChange={handleInputValues}
-                        />
-                    </Form.Group>
+                <Button
+                    type='submit'
+                    variant='primary'
+                    disabled={!filledForm}
+                >
+                    Ingresar
+                </Button>
 
-                    <Button
-                        type='submit'
-                        variant='primary'
-                        disabled={!filledForm}
-                    >
-                        Ingresar
-                    </Button>
+            </Form>
 
-                </Form>
-
-                </div>
             </div>
-            
-            }
-        </>
-        
+        </div>
 
     )
 
