@@ -24,12 +24,13 @@ export const validateStoredUser = ( token, userId, userName, userEmail ) => {
     if ( token && userId && userName && userEmail ) {
         // if all present, validate token
         //const tokenIsValid = validateToken( localStorage.getItem('token') )
+        /*
         if ( validateToken( localStorage.getItem('token') ) === true ) {
             return true
         } else {
             return false
-        }
-        //return true
+        }*/
+        return true
     }
     
     // Prop(s) missing.
