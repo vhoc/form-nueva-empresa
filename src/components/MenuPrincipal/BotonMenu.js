@@ -30,7 +30,10 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
             onClick={ event => {
                 if ( logoutBtn === true )
                 {
-                    console.log( logOut() )
+                    //console.log( logOut() )
+                    logOut().then(() => {
+                        redirectTo( '/login', { replace: true } )
+                    })
                 } else {
                     event.preventDefault()
                 }
