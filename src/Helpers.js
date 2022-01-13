@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export const validateToken = async () => {
+export const validateToken = () => {
 
     try {
-        await axios.get('https://venka.app/api/validateToken', { 
+        axios.get('https://venka.app/api/validateToken', { 
             headers: {
                 'Authorization': localStorage.getItem('token'),
                 'Accept': 'application/json',
@@ -40,9 +40,8 @@ export const validateStoredUser = () => {
 }
 
 export const validateAuth = () => {
-    const tokenIsValid = await validateToken()
     console.log(`validateStoredUser() is ${validateStoredUser()}`)
-    console.log(`validateToken() is ${tokenIsValid}`)
+    console.log(`validateToken() is ${validateToken()}`)
     if ( validateStoredUser() === true && validateToken() === true ) {
         return true
     } else {
