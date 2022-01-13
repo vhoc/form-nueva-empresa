@@ -10,7 +10,7 @@ const LoginForm = ( {redirectRoute} ) => {
 
     const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
-    const [auth, setAuth] = useState(true)
+    const [auth, setAuth] = useState(false)
     const fieldEmailRef = useRef()
     const fieldPasswordRef = useRef()
     const goTo = useNavigate()
@@ -40,6 +40,9 @@ const LoginForm = ( {redirectRoute} ) => {
                     localStorage.setItem('userId', response.data.user.id)
                     localStorage.setItem('userEmail', response.data.user.email)
                     localStorage.setItem('userName', response.data.user.name)
+
+                    setAuth(true)
+                    return
                     
                     //return goTo( redirectRoute, {replace: true} )
                 }
@@ -79,41 +82,50 @@ const LoginForm = ( {redirectRoute} ) => {
     //if ( auth === true ) return ( <Navigate to="/"/> )
 
     return (
-        <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
-            <h3>Acceso</h3>
-            <div className='col-8 col-md-6 col-lg-4 col-xl-3'>
-            <Form onSubmit={onSubmit}>
 
-                <Form.Group className='mb-2'>
-                    <Form.Control
-                        ref={fieldEmailRef}
-                        type={'email'}
-                        placeholder={'E-mail'}
-                        onChange={handleInputValues}
-                    />
-                </Form.Group>
-                
-                <Form.Group className='mb-2'>
-                    <Form.Control
-                        ref={fieldPasswordRef}
-                        type={'password'}
-                        placeholder={'Contraseña'}
-                        onChange={handleInputValues}
-                    />
-                </Form.Group>
+        <>
+            { auth === false ? <Navigate to="/" /> :
+            
+            <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
+            
+                <h3>Acceso</h3>
+                <div className='col-8 col-md-6 col-lg-4 col-xl-3'>
+                <Form onSubmit={onSubmit}>
 
-                <Button
-                    type='submit'
-                    variant='primary'
-                    disabled={!filledForm}
-                >
-                    Ingresar
-                </Button>
+                    <Form.Group className='mb-2'>
+                        <Form.Control
+                            ref={fieldEmailRef}
+                            type={'email'}
+                            placeholder={'E-mail'}
+                            onChange={handleInputValues}
+                        />
+                    </Form.Group>
+                    
+                    <Form.Group className='mb-2'>
+                        <Form.Control
+                            ref={fieldPasswordRef}
+                            type={'password'}
+                            placeholder={'Contraseña'}
+                            onChange={handleInputValues}
+                        />
+                    </Form.Group>
 
-            </Form>
+                    <Button
+                        type='submit'
+                        variant='primary'
+                        disabled={!filledForm}
+                    >
+                        Ingresar
+                    </Button>
 
+                </Form>
+
+                </div>
             </div>
-        </div>
+            
+            }
+        </>
+        
 
     )
 
