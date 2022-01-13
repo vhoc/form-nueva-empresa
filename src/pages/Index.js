@@ -53,7 +53,7 @@ const Index = () => {
         if ( validateStoredUser('a token', 'an user id', 'an userName', 'and userEmail') === false ) {
             setAuth(false)
         }
-    }, [auth] )
+    }, [] )
 
     return (
 
