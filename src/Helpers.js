@@ -41,7 +41,7 @@ export const validateStoredUser = () => {
 
 export const validateAuth = () => {
     console.log(`validateStoredUser() is ${validateStoredUser()}`)
-    console.log(`validateToken() is ${validateToken()}`)
+    console.log(`validateToken() is ${await validateToken()}`)
     if ( validateStoredUser() === true && validateToken() === true ) {
         return true
     } else {
