@@ -64,7 +64,7 @@ export const logOut = async () => {
             headers: {
                 'Authorization': localStorage.getItem('token'),
             }
-        })
+        }).promise()
     } catch (error) {
         return false
     }
