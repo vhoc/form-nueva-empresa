@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import { useNavigate, Navigate } from 'react-router-dom'
-import { validateStoredUser, validateToken } from '../Helpers'
+import { useNavigate } from 'react-router-dom'
+import { validateAuth } from '../Helpers'
 
 const LoginForm = ( {redirectRoute} ) => {
 
@@ -57,10 +57,10 @@ const LoginForm = ( {redirectRoute} ) => {
     }
 
     const checkLogin = () => {
-        console.log(validateStoredUser())
-        console.log(validateToken())
-        if ( validateStoredUser() === true && validateToken() === true ) {
+        if ( validateAuth() === true ) {
             return true
+        } else {
+            return false
         }
     }
 
