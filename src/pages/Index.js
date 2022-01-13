@@ -50,10 +50,10 @@ const Index = () => {
     }, [] )*/
 
     useEffect( () => {
-        if ( validateStoredUser('a token', 'an user id', 'an userName', 'and userEmail') === false ) {
+        if ( validateStoredUser('a token', 'an userName', 'and userEmail') === false ) {
             setAuth(false)
         }
-    }, [] )
+    }, [auth] )
 
     return (
 
