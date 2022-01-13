@@ -16,14 +16,14 @@ function App() {
       />
 
       <Routes>
-        <Route path="/" element={
+        <Route path="/panel" element={
           <RequireAuth redirectTo="login">
           <Route path="/" element={ <Index/> } />
           </RequireAuth>
         }/>
         
-        <Route path="login" element={ <LoginForm redirectRoute="/" /> } />
-        <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
+        <Route path="panel/login" element={ <LoginForm redirectRoute="/" /> } />
+        <Route path="panel/nueva-empresa" element={ <NuevaEmpresa/> } />
       </Routes>
     </div>
   );
