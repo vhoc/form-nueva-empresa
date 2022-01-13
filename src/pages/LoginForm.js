@@ -1,14 +1,16 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
+import { validateStoredUser, validateToken } from '../Helpers'
 
 const LoginForm = ( {redirectRoute} ) => {
 
     const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
+    const [auth, setAuth] = useState(true)
     const fieldEmailRef = useRef()
     const fieldPasswordRef = useRef()
     const goTo = useNavigate()
@@ -69,6 +71,14 @@ const LoginForm = ( {redirectRoute} ) => {
         }
     }
 
+    useEffect(() => {
+        if ( !validateStoredUser() || !validateToken() ) {
+            localStorage.clear()
+            setAuth(false)
+        }
+    }, [auth])
+
+    if ( auth === false ) return ( <Navigate to="/"/> )
 
     return (
         <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
