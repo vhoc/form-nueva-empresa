@@ -8,21 +8,6 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
 
     const redirectTo = useNavigate()
 
-    /*
-    const logOut = () => {
-        axios.get('https://venka.app/api/logout', {
-            headers: {
-                'Authorization': localStorage.getItem('token'),
-            }
-        }).then( () => {
-            console.log("Logout Successful")
-         }).catch(error => {
-             console.error(error)
-         }).finally( () =>{
-            redirectTo( "/login" )
-         } )
-    }*/
-
     return (
         <>
         <Button
@@ -30,7 +15,9 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
             onClick={ async (event) => {
                 if ( logoutBtn === true )
                 {
-                    console.log( await logOut() )
+                   // console.log( await logOut() )
+                   const logOutResult = await logOut()
+                   logOutResult === 200 && <Navigate to="/login" />
                 } else {
                     event.preventDefault()
                 }
