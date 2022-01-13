@@ -42,8 +42,6 @@ export const validateAuth = () => {
 
 export const logOut = () => {
 
-    let value
-
     axios.get('https://venka.app/api/logout', {
         headers: {
             'Authorization': localStorage.getItem('token'),
@@ -51,11 +49,11 @@ export const logOut = () => {
     }).then( () => {
         console.log("Logout Successful")
         localStorage.clear()
-        value = true
+        //redirectTo('/login', { replace: true })
      }).catch(error => {
          console.error(error)
-         value = false
-     })
-
-     return value
+         return false
+     }).finally( () =>{
+        return false
+     } )
 }
