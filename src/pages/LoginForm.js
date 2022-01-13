@@ -78,7 +78,7 @@ const LoginForm = ( {redirectRoute} ) => {
         }
     }, [auth])
 
-    if ( auth === false ) return ( <Navigate to="/"/> )
+    if ( auth === true ) return ( <Navigate to="/"/> )
 
     return (
         <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
