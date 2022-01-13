@@ -7,26 +7,10 @@ import EmpresasTable from "../components/EmpresasTable/EmpresasTable"
 
 const Index = () => {
 
-    /*
-    const [ auth, setAuth ] = useState(true)
-    
-    useEffect( () => {
-        if ( !validateStoredUser() || !validateToken() ) {
-            localStorage.clear()
-            setAuth(false)
-        }
-    }, [auth] )
-
-    return (
-
-            <>{ auth ? <div className="container-fluid p-0"><MenuPrincipal /><EmpresasTable /></div> : <Navigate to={"/login"} /> }</>
-
-    )
-    */
-
     return (
         <div className="container-fluid p-0">
-            <MenuPrincipal /><EmpresasTable />
+            <MenuPrincipal />
+            <EmpresasTable />
         </div>
     )
     

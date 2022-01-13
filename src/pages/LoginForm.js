@@ -43,8 +43,6 @@ const LoginForm = ( {redirectRoute} ) => {
 
                     setAuth(true)
                     return
-                    
-                    //return goTo( redirectRoute, {replace: true} )
                 }
                 Swal.fire('Error', 'Hubo un error al intentar ingresar.', 'error')
                 return
@@ -81,12 +79,6 @@ const LoginForm = ( {redirectRoute} ) => {
             setFilledForm(false)
         }
     }
-    /*
-    if ( !validateStoredUser() || !validateToken() ) {
-        localStorage.clear()
-        return ( <Navigate to="/"/> )
-    }*/
-    //if ( auth === true ) return ( <Navigate to="/"/> )
 
     useEffect(() => {
         if ( auth === true ) {
