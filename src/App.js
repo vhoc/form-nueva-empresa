@@ -16,7 +16,7 @@ function App() {
       />
 
       <Routes>
-        <Route path="/protected" element={
+        <Route path="/" element={
           <RequireAuth redirectTo="login">
           <Route path="/" element={ <Index/> } />
           </RequireAuth>
