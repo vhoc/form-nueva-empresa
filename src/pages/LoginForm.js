@@ -41,7 +41,7 @@ const LoginForm = ( {redirectRoute} ) => {
                     localStorage.setItem('userEmail', response.data.user.email)
                     localStorage.setItem('userName', response.data.user.name)
                     
-                    return goTo( redirectRoute, {replace: true} )
+                    //return goTo( redirectRoute, {replace: true} )
                 }
                 Swal.fire('Error', 'Hubo un error al intentar ingresar.', 'error')
                 return
