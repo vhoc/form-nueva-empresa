@@ -27,7 +27,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
         <>
         <Button
             variant={variant}
-            onClick={ event => {
+            onClick={ async (event) => {
                 if ( logoutBtn === true )
                 {
                     console.log( await logOut() )
