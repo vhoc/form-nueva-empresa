@@ -96,7 +96,7 @@ const LoginForm = ( {redirectRoute} ) => {
         if ( checkLogin() === true ) {
             goTo("/", { replace: true })
         }
-    })
+    }, [])
 
     return (
         <div className='p-3 col-12 d-flex flex-column justify-content-center align-items-center'>
