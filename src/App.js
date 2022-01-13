@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
-import { validateAuth } from './Helpers';
+import { validateAuth, logOut } from './Helpers';
 import Header from './components/Header/Header';
 import Index from './pages/Index';
 import LoginForm from './pages/LoginForm';
@@ -42,6 +42,10 @@ const RequireAuth = ({children, redirectTo}) => {
 const NoAuth = ({children, redirectTo}) => {
   let isAnonymous = !validateAuth()
   console.log(isAnonymous)
+  if ( isAnonymous ) {
+    logOut()
+  }
+  
   return isAnonymous ? children : <Navigate to={redirectTo}/>
 }
 
