@@ -24,7 +24,7 @@ function App() {
         
         <Route path="login" element={ 
           <NoAuth redirectTo="/">
-            <LoginForm redirectRoute="/" />
+            <LoginForm redirectTo="/" redirectRoute="/" />
           </NoAuth>
          } />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
@@ -45,7 +45,7 @@ const NoAuth = ({children, redirectTo}) => {
   if ( isAnonymous ) {
     logOut()
   }
-  
+
   return isAnonymous ? children : <Navigate to={redirectTo}/>
 }
 
