@@ -30,10 +30,12 @@ export const validateStoredUser = ( token, userId, userName, userEmail ) => {
         } else {
             return false
         }*/
+        console.log(`stored user true`)
         return true
     }
     
     // Prop(s) missing.
+    console.log(`stored user false`)
     return false
 }
 
