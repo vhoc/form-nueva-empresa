@@ -82,7 +82,7 @@ const LoginForm = ( {redirectRoute} ) => {
 
     useEffect(() => {
         if ( auth === true ) {
-            return <Navigate to="/" />
+            goTo("/", { replace: true })
         }
     })
 
