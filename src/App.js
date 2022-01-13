@@ -23,13 +23,9 @@ function App() {
           </RequireAuth>
         }/>
         
-        <Route path="login" element={ 
-          <NoAuth redirectTo="/">
-            <LoginForm redirectTo="/" redirectRoute="/" />
-          </NoAuth>
-         } />
+        <LoginForm redirectTo="/" redirectRoute="/" />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
-        
+
       </Routes>
     </div>
   );
@@ -39,16 +35,6 @@ const RequireAuth = ({children, redirectTo}) => {
   let isAuthenticated = validateAuth()
   console.log(isAuthenticated)
   return isAuthenticated ? children : <Navigate to={redirectTo} />
-}
-
-const NoAuth = ({children, redirectTo}) => {
-  let isAnonymous = !validateAuth()
-  console.log(isAnonymous)
-  if ( isAnonymous ) {
-    localStorage.clear()
-  }
-
-  return isAnonymous ? children : <Navigate to={redirectTo}/>
 }
 
 export default App;
