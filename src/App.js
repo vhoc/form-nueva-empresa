@@ -16,6 +16,7 @@ function App() {
       />
 
       <Routes>
+
         <Route path="/" element={
           <RequireAuth redirectTo="login">
             <Index/>
@@ -28,6 +29,7 @@ function App() {
           </NoAuth>
          } />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
+        
       </Routes>
     </div>
   );
