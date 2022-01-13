@@ -71,6 +71,13 @@ const LoginForm = ( {redirectRoute} ) => {
         }
     }
 
+    useEffect(() => {
+        if ( !validateStoredUser() || !validateToken() ) {
+            localStorage.clear()
+            setAuth(false)
+        }
+    }, [])
+
     if ( auth === true ) return ( <Navigate to="/"/> )
 
     return (
