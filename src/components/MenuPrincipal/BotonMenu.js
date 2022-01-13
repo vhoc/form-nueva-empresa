@@ -32,7 +32,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
                 {
                     if ( logOut() === true )
                     {
-                        return <Navigate to="/login" />
+                        redirectTo('/login', { replace: true })
                     }
                 } else {
                     event.preventDefault()
