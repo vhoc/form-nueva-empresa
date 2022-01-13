@@ -30,7 +30,8 @@ function App() {
 }
 
 const RequireAuth = ({children, redirectTo}) => {
-  let isAuthenticated = validateAuth()  
+  let isAuthenticated = validateAuth()
+  console.log(isAuthenticated)
   return isAuthenticated ? children : <Navigate to={redirectTo} />
 }
 
