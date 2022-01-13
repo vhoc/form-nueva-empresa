@@ -16,9 +16,12 @@ function App() {
       />
 
       <Routes>
-        <RequireAuth redirectTo="login">
+        <Route path="/protected" element={
+          <RequireAuth redirectTo="login">
           <Route path="/" element={ <Index/> } />
-        </RequireAuth>
+          </RequireAuth>
+        }/>
+        
         <Route path="login" element={ <LoginForm redirectRoute="/" /> } />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
       </Routes>
