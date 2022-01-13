@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 
 export const validateToken = () => {
@@ -43,7 +43,7 @@ export const validateAuth = () => {
 
 export const logOut = () => {
     const redirectTo = useNavigate()
-    
+
     axios.get('https://venka.app/api/logout', {
         headers: {
             'Authorization': localStorage.getItem('token'),
@@ -51,8 +51,8 @@ export const logOut = () => {
     }).then( () => {
         console.log("Logout Successful")
         localStorage.clear()
-        redirectTo('/login', { replace: true })
-        return true
+        //redirectTo('/login', { replace: true })
+        return <Navigate to="/"/>
      }).catch(error => {
          console.error(error)
          return false
