@@ -93,7 +93,7 @@ const LoginForm = ( {redirectRoute} ) => {
             goTo("/", { replace: true })
         }
 
-        if ( checkLogin === true ) {
+        if ( checkLogin() === true ) {
             goTo("/", { replace: true })
         }
     })
