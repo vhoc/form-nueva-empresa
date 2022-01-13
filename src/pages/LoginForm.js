@@ -57,6 +57,8 @@ const LoginForm = ( {redirectRoute} ) => {
     }
 
     const checkLogin = () => {
+        console.log(validateStoredUser())
+        console.log(validateToken())
         if ( validateStoredUser() === true && validateToken() === true ) {
             return true
         }
