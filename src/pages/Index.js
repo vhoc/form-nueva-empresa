@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 
-import { validateStoredUser, logOut } from '../Helpers'
+import { validateStoredUser, logOut, validateToken } from '../Helpers'
 import MenuPrincipal from "../components/MenuPrincipal/MenuPrincipal"
 import EmpresasTable from "../components/EmpresasTable/EmpresasTable"
 
@@ -50,7 +50,7 @@ const Index = () => {
     }, [] )*/
 
     useEffect( () => {
-        if ( validateStoredUser('a token', 'an userName', 'and userEmail') === true ) {
+        if ( validateStoredUser() && validateToken() ) {
             setAuth(true)
         }
     }, [auth] )
