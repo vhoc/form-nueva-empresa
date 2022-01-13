@@ -5,7 +5,7 @@ import './../Section.css'
 
 const EmpresasTable = () => {
 
-    const [empresas, setEmpresas] = useState()
+    const [empresas, setEmpresas] = useState([])
 
     const usuario = localStorage.getItem('userId')
 
@@ -16,7 +16,8 @@ const EmpresasTable = () => {
                     'Authorization': localStorage.getItem('token')
                 }
             })
-            console.log(response.data)
+            //console.log(response.data)
+            setEmpresas( await response.data )
 
         } catch ( error ) {
             console.log(error)
