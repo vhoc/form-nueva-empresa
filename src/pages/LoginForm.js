@@ -56,6 +56,12 @@ const LoginForm = ( {redirectRoute} ) => {
         })
     }
 
+    const checkLogin = () => {
+        if ( validateStoredUser === true && validateToken === true ) {
+            setAuth( true )
+        }
+    }
+
     const onSubmit = event => {
         event.preventDefault()
         doLogin()
@@ -82,6 +88,10 @@ const LoginForm = ( {redirectRoute} ) => {
 
     useEffect(() => {
         if ( auth === true ) {
+            goTo("/", { replace: true })
+        }
+
+        if ( checkLogin === true ) {
             goTo("/", { replace: true })
         }
     })
