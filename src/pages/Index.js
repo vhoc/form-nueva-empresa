@@ -52,9 +52,6 @@ const Index = () => {
     useEffect( () => {
         if ( validateStoredUser('a token', 'an user id', 'an userName', 'and userEmail') === false ) {
             setAuth(false)
-        } else {
-            //logOut()
-            setAuth(true)
         }
     }, [auth] )
 
