@@ -18,11 +18,7 @@ const EmpresasTable = () => {
         }
     }
 
-    useEffect({
-        
-        getEmpresas()
-        
-    }, [])
+    useEffect( () =>  { getEmpresas() }, [])
 
     return (
 
