@@ -10,6 +10,7 @@ const LoginForm = ( {redirectRoute} ) => {
 
     const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
+    const [isSending, setIsSending] = useState(false)
     const [auth, setAuth] = useState(false)
     const fieldEmailRef = useRef()
     const fieldPasswordRef = useRef()
@@ -19,6 +20,7 @@ const LoginForm = ( {redirectRoute} ) => {
      * doLogin
      */
      const doLogin = () => {
+        setIsSending(true)
         axios.defaults.withCredentials = true;
         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
             axios.post('https://venka.app/api/login', credentials, {
@@ -27,11 +29,13 @@ const LoginForm = ( {redirectRoute} ) => {
 
                 if (response.data.status_code === 400 ) {
                     Swal.fire('Error de Validación', 'Ingrese ambos campos (E-mail y Contraseña) correctamente.', 'error')
+                        .then(() => setIsSending(false))
                     return
                 }
 
                 if (response.data.status_code === 403) {
                     Swal.fire('Error de Autenticación', 'Los datos ingresados no coinciden con los de ningún usuario registrado.', 'error')
+                        .then(() => setIsSending(false))
                     return
                 }
 
@@ -42,13 +46,16 @@ const LoginForm = ( {redirectRoute} ) => {
                     localStorage.setItem('userName', response.data.user.name)
 
                     setAuth(true)
+                    setIsSending(false)
                     return
                 }
                 Swal.fire('Error', 'Hubo un error al intentar ingresar.', 'error')
+                setIsSending(false)
                 return
                 
             }).catch( () => {
                 Swal.fire('Error', 'Hubo un error al intentar ingresar, verifique su conexión a internet', 'error')
+                setIsSending(false)
                 return
             })
         })
@@ -117,7 +124,7 @@ const LoginForm = ( {redirectRoute} ) => {
                 <Button
                     type='submit'
                     variant='primary'
-                    disabled={!filledForm}
+                    disabled={!filledForm || isSending}
                 >
                     Ingresar
                 </Button>

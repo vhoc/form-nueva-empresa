@@ -18,7 +18,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={
-          <RequireAuth redirectTo="login">
+          <RequireAuth redirectTo="/login">
             <Index/>
           </RequireAuth>
         }/>
