@@ -52,6 +52,8 @@ const Index = () => {
     useEffect( () => {
         if ( validateStoredUser() && validateToken() ) {
             setAuth(true)
+        } else {
+            logOut()
         }
     }, [auth] )
 
