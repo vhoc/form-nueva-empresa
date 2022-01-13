@@ -65,6 +65,6 @@ export const logOut = async () => {
         }
     })
 
-    console.log( response )
+    console.log( response.data.status_code )
 
 }
