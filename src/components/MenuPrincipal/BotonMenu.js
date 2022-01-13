@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { logOut } from '../../Helpers'
 import './BotonMenu.css'
 import axios from "axios"
 
@@ -8,6 +9,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
 
     const redirectTo = useNavigate()
 
+    /*
     const logOut = () => {
         axios.get('https://venka.app/api/logout', {
             headers: {
@@ -20,7 +22,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
          }).finally( () =>{
             redirectTo( "/login" )
          } )
-    }
+    }*/
 
     return (
         <>
