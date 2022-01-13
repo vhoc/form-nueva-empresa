@@ -70,11 +70,11 @@ const LoginForm = ( {redirectRoute} ) => {
             setFilledForm(false)
         }
     }
-
+    /*
     if ( !validateStoredUser() || !validateToken() ) {
         localStorage.clear()
         return ( <Navigate to="/"/> )
-    }
+    }*/
 
     //if ( auth === true ) return ( <Navigate to="/"/> )
 
