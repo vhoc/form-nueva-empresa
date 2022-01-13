@@ -12,20 +12,15 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
         <>
         <Button
             variant={variant}
-            onClick={ async (event) => {
+            onClick={ async () => {
                 if ( logoutBtn === true )
                 {
-                   // console.log( await logOut() )
                    const logOutResult = await logOut()
-
-                   console.log( logOutResult )
-
                     if (logOutResult === 200 ) {
-                        console.log("I'm supposes to redirect to login")
                         redirectTo( '/login', { replace: true } )
+                    } else {
+                        console.error( logOutResult )
                     }
-                } else {
-                    event.preventDefault()
                 }
             } }
             className="boton-menu d-flex flex-column align-items-center justify-content-center"
