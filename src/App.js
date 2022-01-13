@@ -23,7 +23,7 @@ function App() {
           </RequireAuth>
         }/>
         
-        <LoginForm redirectTo="/" redirectRoute="/" />
+        <Route path="login" element={ <LoginForm redirectTo="/" redirectRoute="/" /> } />
         <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
 
       </Routes>
