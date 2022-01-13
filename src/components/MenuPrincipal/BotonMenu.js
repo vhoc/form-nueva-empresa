@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { logOut } from '../../Helpers'
 import './BotonMenu.css'
@@ -30,7 +30,10 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
             onClick={ event => {
                 if ( logoutBtn === true )
                 {
-                    logOut()
+                    if ( logOut() === true )
+                    {
+                        return <Navigate to="/login" />
+                    }
                 } else {
                     event.preventDefault()
                 }
