@@ -39,6 +39,14 @@ export const validateStoredUser = () => {
     return false
 }
 
+export const validateAuth = () => {
+    if ( validateStoredUser() === true && validateToken() === true ) {
+        return true
+    } else {
+        return false
+    }
+}
+
 export const logOut = () => {
     axios.get('https://venka.app/api/logout', {
         headers: {
