@@ -17,7 +17,13 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
                 {
                    // console.log( await logOut() )
                    const logOutResult = await logOut()
-                   logOutResult === 200 && redirectTo( '/', { replace: true } )
+
+                   console.log( logOutResult )
+
+                    if (logOutResult === 200 ) {
+                        console.log("I'm supposes to redirect to login")
+                        redirectTo( '/login', { replace: true } )
+                    }
                 } else {
                     event.preventDefault()
                 }

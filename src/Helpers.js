@@ -65,6 +65,7 @@ export const logOut = async () => {
                 'Authorization': localStorage.getItem('token'),
             }
         })
+        localStorage.clear()
         return response.data.status_code
     } catch (error) {
         return error
