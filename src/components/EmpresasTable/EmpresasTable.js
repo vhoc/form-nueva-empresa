@@ -11,7 +11,11 @@ const EmpresasTable = () => {
 
     const getEmpresas = async () => {
         try {
-            const response = await axios.get(`https://venka.app/api/usuario-empresas/${usuario}`)
+            const response = await axios.get(`https://venka.app/api/usuario-empresas/${usuario}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
             console.log(response)
         } catch ( error ) {
             console.log(error)
