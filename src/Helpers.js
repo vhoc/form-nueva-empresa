@@ -66,7 +66,7 @@ export const logOut = async () => {
             }
         }).promise()
     } catch (error) {
-        return false
+        return error
     }
 
 }
