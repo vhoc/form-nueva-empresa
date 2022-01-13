@@ -60,11 +60,12 @@ export const logOut_backup = () => {
 
 export const logOut = async () => {
     try {
-        return await axios.get('https://venka.app/api/logout', {
+        const response = await axios.get('https://venka.app/api/logout', {
             headers: {
                 'Authorization': localStorage.getItem('token'),
             }
-        }).promise()
+        })
+        return response
     } catch (error) {
         return error
     }
