@@ -1,15 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
-import axios from 'axios'
 
 import { validateStoredUser, logOut } from '../Helpers'
 import MenuPrincipal from "../components/MenuPrincipal/MenuPrincipal"
 import EmpresasTable from "../components/EmpresasTable/EmpresasTable"
-import { NavItem } from 'react-bootstrap'
 
 const Index = () => {
 
     const redirect = useNavigate()
+
+    const [ auth, setAuth ] = useState(false)
     
 /*
     const validateToken = async ( token ) => {
@@ -49,27 +49,21 @@ const Index = () => {
         validateStoredUser( 'a token', 'an user id', 'an userName', 'an userEmail' ) ? 
     }, [] )*/
 
-    if ( validateStoredUser('a token', 'an user id', 'an userName', 'and userEmail') === true )
-    {
-        return (
-            <div className="container-fluid p-0">
-                <MenuPrincipal />
-                <EmpresasTable />
-            </div>
+    useEffect( () => {
+        if ( validateStoredUser('a token', 'an user id', 'an userName', 'and userEmail') === true ) {
 
-        )
-    }
-    else {
-        logOut()
-    
-        return (
-            <Navigate to={"/login"} />
-        )
-    }
+            setAuth(true)
+        } else {
+            logOut()
+            setAuth(false)
+        }
+    }, [auth] )
 
-    
+    return (
 
+            <>{ auth ? <div className="container-fluid p-0"><MenuPrincipal /><EmpresasTable /></div> : <Navigate to={"/login"} /> }</>
 
+    )
     
 }
 
