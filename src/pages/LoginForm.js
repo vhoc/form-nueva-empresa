@@ -81,7 +81,7 @@ const LoginForm = ( {redirectRoute} ) => {
     //if ( auth === true ) return ( <Navigate to="/"/> )
 
     useEffect(() => {
-        if ( auth === false ) {
+        if ( auth === true ) {
             return <Navigate to="/" />
         }
     }, [auth])
