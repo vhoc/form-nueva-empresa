@@ -51,6 +51,7 @@ const Index = () => {
 
     useEffect( () => {
         if ( !validateStoredUser() || !validateToken() ) {
+            localStorage.clear()
             setAuth(false)
         }
     }, [auth] )
