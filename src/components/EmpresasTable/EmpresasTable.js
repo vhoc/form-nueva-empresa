@@ -9,9 +9,9 @@ const EmpresasTable = () => {
 
     const usuario = localStorage.getItem('userId')
 
-    const getEmpresas =  () => {
+    const getEmpresas = async () => {
         try {
-            const response = await axios.get(`https://venka.app/api/${usuario}/empresas`)
+            const response = await axios.get(`https://venka.app/api/usuario-empresas/${usuario}`)
             console.log(response)
         } catch ( error ) {
             console.log(error)
@@ -19,7 +19,9 @@ const EmpresasTable = () => {
     }
 
     useEffect({
+        
         getEmpresas()
+        
     }, [])
 
     return (
