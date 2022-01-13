@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { validateAuth } from '../Helpers'
 
-const LoginForm = ( {redirectRoute} ) => {
+const LoginForm = () => {
 
     const [credentials, setCredentials] = useState({email: '', password: ''})
     const [filledForm, setFilledForm] = useState(false)
@@ -24,7 +24,7 @@ const LoginForm = ( {redirectRoute} ) => {
         axios.defaults.withCredentials = true;
         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
             axios.post('https://venka.app/api/login', credentials, {
-                    xsrfHeaderName: "X-XSRF-TOKEN",            
+                    xsrfHeaderName: "X-XSRF-TOKEN",
             }).then(response => {
 
                 if (response.data.status_code === 400 ) {

@@ -1,7 +1,26 @@
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import BarraTitulo from '../BarraTitulo/BarraTitulo'
 import './../Section.css'
 
 const EmpresasTable = () => {
+
+    const [empresas, setEmpresas] = useState()
+
+    const usuario = localStorage.getItem('userId')
+
+    const getEmpresas =  () => {
+        try {
+            const response = await axios.get(`https://venka.app/api/${usuario}/empresas`)
+            console.log(response)
+        } catch ( error ) {
+            console.log(error)
+        }
+    }
+
+    useEffect({
+        getEmpresas()
+    }, [])
 
     return (
 
