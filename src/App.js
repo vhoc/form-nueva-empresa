@@ -24,7 +24,13 @@ function App() {
         }/>
         
         <Route path="login" element={ <LoginForm redirectTo="/" redirectRoute="/" /> } />
-        <Route path="nueva-empresa" element={ <NuevaEmpresa/> } />
+
+        <Route path="nueva-empresa" element={ 
+          <RequireAuth redirectTo="login">
+            <NuevaEmpresa/>
+          </RequireAuth>
+         }
+        />
 
       </Routes>
     </div>
@@ -33,7 +39,6 @@ function App() {
 
 const RequireAuth = ({children, redirectTo}) => {
   let isAuthenticated = validateAuth()
-  console.log(isAuthenticated)
   return isAuthenticated ? children : <Navigate to={redirectTo} />
 }
 
