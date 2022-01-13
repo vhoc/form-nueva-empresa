@@ -9,7 +9,7 @@ const Index = () => {
 
     const redirect = useNavigate()
 
-    const [ auth, setAuth ] = useState(false)
+    const [ auth, setAuth ] = useState(true)
     
 /*
     const validateToken = async ( token ) => {
@@ -50,8 +50,8 @@ const Index = () => {
     }, [] )*/
 
     useEffect( () => {
-        if ( validateStoredUser() && validateToken() ) {
-            setAuth(true)
+        if ( !validateStoredUser() || !validateToken() ) {
+            setAuth(false)
         }
     }, [auth] )
 
