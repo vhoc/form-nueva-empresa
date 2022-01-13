@@ -43,7 +43,7 @@ const NoAuth = ({children, redirectTo}) => {
   let isAnonymous = !validateAuth()
   console.log(isAnonymous)
   if ( isAnonymous ) {
-    logOut()
+    localStorage.clear()
   }
 
   return isAnonymous ? children : <Navigate to={redirectTo}/>
