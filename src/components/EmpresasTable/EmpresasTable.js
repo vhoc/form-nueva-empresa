@@ -47,7 +47,7 @@ const EmpresasTable = () => {
                         </tr>
                     </thead>                
 
-                    {/** Dynamic Rows Here */}
+                    { empresas } 
 
                 </table>
 
