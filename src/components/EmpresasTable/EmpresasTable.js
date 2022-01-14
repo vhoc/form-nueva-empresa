@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import BarraTitulo from '../BarraTitulo/BarraTitulo'
 import './../Section.css'
+import './EmpresasTable.css'
 
 const EmpresasTable = () => {
 
@@ -18,7 +19,6 @@ const EmpresasTable = () => {
             })
             //console.log(response.data)
             setEmpresas( await response.data )
-            console.log(empresas)
 
         } catch ( error ) {
             console.log(error)
@@ -40,17 +40,26 @@ const EmpresasTable = () => {
                         <tr>
                             <th>Nombre comercial</th>
                             <th>Status</th>
-                            <th>Fecha de suscripción</th>
-                            <th>Expiración</th>
                             <th>Último pago</th>
+                            <th>Expiración</th>                            
                             <th>Acciones</th>
                         </tr>
                     </thead>                
 
+                    <tbody>
+                        {empresas.map( (empresa) => (
+                            <tr key={empresa.id}>
+                                <td className='text-left'>{empresa.nomcom_emp}</td>
+                                <td>{empresa.status_emp >= 1 ? 'Activa' : 'Suspendida'}</td>
+                                <td>{empresa.fecha_last_pay}</td>
+                                <td>{empresa.fecha_venc}</td>
+                                <td>Botones aquí</td>
+                            </tr>
+                        ) )}
+                    </tbody>
                     
 
                 </table>
-                { empresas.map( empresa => { <div>{empresa.id}</div> } ) } 
 
             </div>
 
