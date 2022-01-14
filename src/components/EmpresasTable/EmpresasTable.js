@@ -47,9 +47,10 @@ const EmpresasTable = () => {
                         </tr>
                     </thead>                
 
-                    { empresas } 
+                    
 
                 </table>
+                { empresas.map( empresa => { <div>empresa.id</div> } ) } 
 
             </div>
 
