@@ -5,14 +5,16 @@ import Header from './components/Header/Header';
 import Index from './pages/Index';
 import LoginForm from './pages/LoginForm';
 import NuevaEmpresa from './pages/NuevaEmpresa';
+import { useEffect, useState } from 'react';
 
 function App() {
+
   return (
     <div className="App">
       <Header
         title="Venka"
-        subtitle="Panel de Usuario"
         description="Bienvenido, aquí podrá ver y administrar sus empresas, así como renovar la suscripción de cada una de ellas."
+        //user={user}
       />
 
       <Routes>
