@@ -9,11 +9,13 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 const MenuPrincipal = () => {
 
+    const usuario = localStorage.getItem('userName')
+
     return (
 
         <>
         
-            <BarraTitulo titulo="Menú Principal" />
+            <BarraTitulo titulo={ `Bienvenido, ${usuario}` } />
 
             <div className="d-flex flex-wrap p-3 gap-3">
                 <Link to="/nueva-empresa"><BotonMenu titulo="Nueva Empresa" variant="info" icon={ faPlus }/></Link>

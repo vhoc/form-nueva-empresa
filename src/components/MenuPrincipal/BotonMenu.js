@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { logOut } from '../../Helpers'
 import './BotonMenu.css'

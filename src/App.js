@@ -1,11 +1,11 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
-import { validateAuth, logOut } from './Helpers';
+import { validateAuth } from './Helpers';
 import Header from './components/Header/Header';
 import Index from './pages/Index';
 import LoginForm from './pages/LoginForm';
 import NuevaEmpresa from './pages/NuevaEmpresa';
-import { useEffect, useState } from 'react';
+import EditarEmpresa from './pages/EditarEmpresa';
 
 function App() {
 
@@ -14,7 +14,6 @@ function App() {
       <Header
         title="Venka"
         description="Bienvenido, aquí podrá ver y administrar sus empresas, así como renovar la suscripción de cada una de ellas."
-        //user={user}
       />
 
       <Routes>
@@ -32,6 +31,13 @@ function App() {
             <NuevaEmpresa/>
           </RequireAuth>
          }
+        />
+
+        <Route path="editar-empresa" element={
+          <RequireAuth redirectTo="/login">
+            <EditarEmpresa/>
+          </RequireAuth>
+        }
         />
 
       </Routes>
