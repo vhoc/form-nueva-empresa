@@ -4,29 +4,40 @@ import { Formik, Field } from 'formik'
 import BarraTitulo from '../components/BarraTitulo/BarraTitulo'
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
+import './EditarEmpresa.css'
 
 const EditarEmpresa = () => {
 
     // useLocation es para recibir un parámetro desde otro componente enviado por useNavigate.
     const location = useLocation()
     const idEmpresa = location.state.id
-
-    /*
-    const [empresa, setEmpresa] = useState( {
-
-        nomcom_emp: '',// Nombre Comercial
-        dircom_emp: '',// Dirección Comercial
-        mesas_qty: 0,
-        pax_qty: 0,
-        has_mesas: 0,
-        status_emp: 0,
-        nomnomfis_emp: '',// Nombre Fiscal
-        dirfis_emp: '',// Dirección Fiscal
-        rfc_emp: '',// RFC
-        logo_sucursal: '',
-    } )*/
     const [isLoading, setIsLoading] = useState( true )
     const [empresa, setEmpresa] = useState({})
+
+    /**
+     * Handlers para el cambio de Logo
+     */
+    const onLogoChange = event => {
+        const uri = `https://venka.app/api/empresa/set-logo-img`
+        const file = event.target.files[0]
+        uploadFile( uri, file )
+    }
+
+    const uploadFile = ( uri, file ) => {
+        const formData = new FormData()
+        formData.append( 'file', file )
+        formData.append( 'id_empresa', idEmpresa )
+        axios.post(uri, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': localStorage.getItem('token'),
+            },
+        }).then( (response) => {
+           console.log(response) 
+        } ).catch( error => {
+            console.error(error)
+        } )
+    }
 
     useEffect( () => {
         const getEmpresa = async ( id ) => {
@@ -71,9 +82,7 @@ const EditarEmpresa = () => {
                             dircom_emp: empresa.dircom_emp || '',
                             mesas_qty: empresa.mesas_qty || 0,
                             pax_qty: empresa.pax_qty || 0,
-                            status_emp: empresa.status_emp || 0,
-                            has_mesas: empresa.has_mesas || 0,
-                            logo_sucursal: empresa.logo_sucursal || 0,
+                            logo_sucursal: empresa.logo_sucursal || '',
                             nomfis_emp: empresa.nomfis_emp || '',
                             dirfis_emp: empresa.dirfis_emp || '',
                             rfc_emp: empresa.rfc_emp || '',
@@ -115,7 +124,6 @@ const EditarEmpresa = () => {
                         }
 
                         // Tiene Mesas? has_mesas
-                        // Status status_emp
 
                         // Nombre Fiscal nomnomfis_emp
                         if (
@@ -125,6 +133,12 @@ const EditarEmpresa = () => {
                         }
 
                         // Direccion Fiscal dirfis_emp
+                        if (
+                            !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dirfis_emp)
+                        ) {
+                            errors.dirfis_emp = 'La dirección no debe tener símbolos inválidos y debe ser entre 3 y 150 caracteres.';
+                        }
+
                         // RFC rfc_emp
                         if (
                             !/[A-Z,Ñ,&]{3,4}[0-9]{2}[0,1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?/gi.test(values.rfc_emp)
@@ -142,7 +156,7 @@ const EditarEmpresa = () => {
 
                         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
                             axios.post('https://venka.app/api/nueva-empresa/', values, {
-                                xsrfHeaderName: "X-XSRF-TOKEN",
+                                xsrfHeaderName: "X-XSRF-TOKEN"
                             }).then( response => {
                                 if (response.data.error) {
                                     console.warn(response.data.error)
@@ -252,6 +266,22 @@ const EditarEmpresa = () => {
                             <small className='form-text text-red'>{ errors.dircom_emp && touched.dircom_emp && errors.dircom_emp }</small>
                         </div>
 
+                        {/**
+                         * FIELD - FILE
+                         * Imagen, logotipo de sucursal.
+                         */}
+                        <div className="form-group text-left d-flex flex-wrap justify-content-between align-items-center">
+                            <label htmlFor="inputLogo">Logotipo</label>
+                            <input
+                                className="form-control"
+                                id="inputLogo"
+                                type="file"
+                                accept="image/png, image/jpg, image/jpeg, image/webp"
+                                onChange={onLogoChange}
+                            />
+                            <img className="img img-fluid img-logo" src={`https://venka.app/storage/${empresa.logo_sucursal}`} />
+                        </div>
+
                         <hr />
                         <h4>Datos de Facturación</h4>
 
@@ -289,10 +319,30 @@ const EditarEmpresa = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.rfc_emp}
-                                placeholder='Nombre fiscal de su empresa. Razón Social de persona física o sociedad.'
+                                placeholder='Registro Federal de Contribuyente'
                             />
                             <small className='form-text text-red'>{ errors.rfc_emp && touched.rfc_emp && errors.rfc_emp }</small>
                             <br />
+                        </div>
+
+                        {/**
+                         * FIELD - TEXTAREA
+                         * Dirección Fiscal.
+                         */}
+                        <div className='form-group text-left'>
+                            <label htmlFor='inputDireccionFiscal'>Dirección Fiscal</label>
+                            <Field
+                                className='form-control'
+                                id="inputDireccionFiscal"
+                                name="dirfis_emp"
+                                component="textarea"
+                                rows="4"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.dirfis_emp}
+                                placeholder='Calle, Número, Colonia, Código Postal, Ciudad y Estado.'
+                            ></Field>
+                            <small className='form-text text-red'>{ errors.dirfis_emp && touched.dirfis_emp && errors.dirfis_emp }</small>
                         </div>
 
                         {/* Tiene Mesas? has_mesas
