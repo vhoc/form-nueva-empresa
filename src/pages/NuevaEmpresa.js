@@ -67,6 +67,7 @@ const NuevaEmpresa = () => {
                         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
                             axios.post('https://venka.app/api/nueva-empresa/', values, {
                                 xsrfHeaderName: "X-XSRF-TOKEN",
+                                Authorization: localStorage.getItem('token')
                             }).then( response => {
                                 if (response.data.error) {
                                     console.warn(response.data.error)

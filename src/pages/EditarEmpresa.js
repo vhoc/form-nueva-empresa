@@ -124,6 +124,7 @@ const EditarEmpresa = () => {
                     initialValues={
                         
                         {
+                            id_empresa: idEmpresa,
                             nomcom_emp: empresa.nomcom_emp || '',
                             dircom_emp: empresa.dircom_emp || '',
                             mesas_qty: empresa.mesas_qty || 0,
@@ -150,7 +151,7 @@ const EditarEmpresa = () => {
 
                         // Dirección de la Empresa o Sucursal
                         if (
-                            !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dircom_emp)
+                            !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dircom_emp) && !/^$/.test(values.dircom_emp)
                         ) {
                             errors.dircom_emp = 'La dirección no debe tener símbolos inválidos y debe ser entre 3 y 150 caracteres.';
                         }
@@ -173,22 +174,23 @@ const EditarEmpresa = () => {
 
                         // Nombre Fiscal nomnomfis_emp
                         if (
-                            !/^([a-z]|\d|\s){3,50}$/i.test(values.nomfis_emp)
+                            !/^([a-z]|\d|\s){3,50}$/i.test(values.nomfis_emp) && !/^$/.test(values.nomfis_emp)
                         ) {
                             errors.nomfis_emp = 'Se permiten de 3 a 50 caracteres, únicamente letras, números y espacios.';
                         }
 
                         // Direccion Fiscal dirfis_emp
                         if (
-                            !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dirfis_emp)
+                            !/^([a-z0-9\s\-#.':;,´`áéíóúü()]){3,150}$/gi.test(values.dirfis_emp) && !/^$/.test(values.dirfis_emp)
                         ) {
                             errors.dirfis_emp = 'La dirección no debe tener símbolos inválidos y debe ser entre 3 y 150 caracteres.';
                         }
 
                         // RFC rfc_emp
                         if (
-                            !/[A-Z,Ñ,&]{3,4}[0-9]{2}[0,1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?/gi.test(values.rfc_emp)
-                        ) {
+                            !/[A-Z,Ñ,&]{3,4}[0-9]{2}[0,1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?/gi.test(values.rfc_emp) && !/^$/.test(values.rfc_emp)
+                        )
+                        {
                             errors.rfc_emp = 'El RFC no tiene un formato válido, no introduzca guiones, símbolos ni espacios.';
                         }
 
@@ -198,16 +200,24 @@ const EditarEmpresa = () => {
                     }}
 
                     onSubmit={ (values, {setSubmitting}) => {
+                        setSubmitting(true)
                         axios.defaults.withCredentials = true;
 
                         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
-                            axios.post('https://venka.app/api/nueva-empresa/', values, {
-                                xsrfHeaderName: "X-XSRF-TOKEN"
+                            axios.post('https://venka.app/api/empresa/', values, {
+                                headers: {
+                                    xsrfHeaderName: "X-XSRF-TOKEN",
+                                    'Authorization': localStorage.getItem('token'),
+                                    'Accept': 'application/json'
+                                }
+                                
                             }).then( response => {
                                 if (response.data.error) {
                                     console.warn(response.data.error)
+                                    setSubmitting(true)
                                 } else {
                                     console.log('success')
+                                    setSubmitting(true)
                                 }
                             } )
                         } )
@@ -219,7 +229,7 @@ const EditarEmpresa = () => {
 
                     { ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
 
-                    <form onSubmit={handleSubmit} className='col-12 col-lg-6 text-center'>
+                    <form onSubmit={handleSubmit} className='col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 text-center'>
 
                         
 
@@ -325,7 +335,8 @@ const EditarEmpresa = () => {
                                 accept="image/png, image/jpg, image/jpeg, image/webp"
                                 onChange={onLogoChange}
                             />
-                            <img className="img img-fluid img-logo" src={`https://venka.app/storage/${empresa.logo_sucursal}`} />
+                            { empresa.logo_sucursal ? <img className="img img-fluid img-logo" src={`https://venka.app/storage/${empresa.logo_sucursal}?${new Date()}`} /> : '' }
+                            
                         </div>
 
                         <hr />
@@ -390,12 +401,6 @@ const EditarEmpresa = () => {
                             ></Field>
                             <small className='form-text text-red'>{ errors.dirfis_emp && touched.dirfis_emp && errors.dirfis_emp }</small>
                         </div>
-
-                        {/* Tiene Mesas? has_mesas
-                        // Status status_emp
-
-                        
-                        // Logo Sucursal logo_sucursal*/}
 
                         <button className='btn btn-primary my-3' disabled={isSubmitting} type='submit'>
                             Enviar
