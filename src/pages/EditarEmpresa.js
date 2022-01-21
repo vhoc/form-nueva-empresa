@@ -4,6 +4,8 @@ import { Formik, Field } from 'formik'
 import BarraTitulo from '../components/BarraTitulo/BarraTitulo'
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
+import FileResizer from "react-image-file-resizer"
+import Resizer from 'react-image-file-resizer'
 import './EditarEmpresa.css'
 
 const EditarEmpresa = () => {
@@ -13,14 +15,22 @@ const EditarEmpresa = () => {
     const idEmpresa = location.state.id
     const [isLoading, setIsLoading] = useState( true )
     const [empresa, setEmpresa] = useState({})
+    const [logoImage, setLogoImage] = useState()
 
     /**
      * Handlers para el cambio de Logo
      */
-    const onLogoChange = event => {
-        const uri = `https://venka.app/api/empresa/set-logo-img`
-        const file = event.target.files[0]
-        uploadFile( uri, file )
+    const onLogoChange = async event => {
+        try {
+            const uri = `https://venka.app/api/empresa/set-logo-img`
+            const file = event.target.files[0]
+            const resized = await resizeFile(file)
+            const postReadyImg = dataUriToBlob( resized )
+            //console.log(resized)
+            uploadFile( uri, postReadyImg )
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     const uploadFile = ( uri, file ) => {
@@ -33,10 +43,46 @@ const EditarEmpresa = () => {
                 'Authorization': localStorage.getItem('token'),
             },
         }).then( (response) => {
-           console.log(response) 
+           console.log(response)
+           setLogoImage( response.data.logo_sucursal )
         } ).catch( error => {
             console.error(error)
         } )
+    }
+
+    /**
+     * Image resizer
+     */
+    const resizeFile = file => {
+        return new Promise( resolve => {
+            Resizer.imageFileResizer(
+                file,
+                500,
+                500,
+                "PNG",
+                100,
+                0,
+                (uri) => {
+                   resolve(uri);
+                },
+                "base64"
+            )
+        } )
+    }
+
+    /**
+     * Convers the resized image data URI to Blob
+     */
+    const dataUriToBlob = dataUri => {
+        const splitDataUri = dataUri.split(',')
+        const byteString = splitDataUri[0].indexOf("base64") >= 0 ? atob(splitDataUri[1]) : decodeURI(splitDataUri[1])
+        const mimeString = splitDataUri[0].split(":")[1].split(";")[0]
+        const ia = new Uint8Array(byteString.length)
+
+        for ( let i = 0; i < byteString.length; i++ ) ia[i] = byteString.charCodeAt(i)
+
+        return new Blob([ia], { type: mimeString })
+        
     }
 
     useEffect( () => {
@@ -60,7 +106,7 @@ const EditarEmpresa = () => {
         getEmpresa( idEmpresa )
         setIsLoading( false )
 
-    }, [isLoading] )
+    }, [isLoading, logoImage] )
 
     return (
         <div className="container-fluid d-flex flex-column align-items-center p-0">
