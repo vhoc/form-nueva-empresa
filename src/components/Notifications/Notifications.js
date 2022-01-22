@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from "axios"
+import Notification from './Notification'
 
 const Notifications = ( { idEmpresa } ) => {
 
@@ -26,22 +27,18 @@ const Notifications = ( { idEmpresa } ) => {
 
     }, [] )
 
-
-    return (
-        <div className='w-100'>
+    if ( notifications ) {
+        return (
+            <>
             {
-                notifications &&
-                Object.keys(notifications).map( (notification) => 
-                    <div className={`alert alert-${notifications[notification].type} alert-dismissible fade show w-100`} role="alert">
-                        {notifications[notification].message}
-                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                 )
-             }
-        </div>
-    )
+                Object.keys(notifications).map( (notification) => {
+                    <Notification />
+                })
+            }
+            </>
+        )
+    }
+
 }
 
 export default Notifications
