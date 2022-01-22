@@ -2,6 +2,7 @@ import { Formik, Field } from 'formik'
 import BarraTitulo from '../components/BarraTitulo/BarraTitulo'
 import './NuevaEmpresa.css'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 
 const NuevaEmpresa = () => {
@@ -21,7 +22,7 @@ const NuevaEmpresa = () => {
                             mesas_qty: 0,
                             pax_qty: 0,
                             status_emp: 0,
-                            id_cliente: 0,
+                            id_cliente: localStorage.getItem('userId'),
                         }
                     }
 
@@ -62,17 +63,25 @@ const NuevaEmpresa = () => {
                     }}
 
                     onSubmit={ (values, {setSubmitting}) => {
+                        setSubmitting(true)
                         axios.defaults.withCredentials = true;
 
                         axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
                             axios.post('https://venka.app/api/nueva-empresa/', values, {
-                                xsrfHeaderName: "X-XSRF-TOKEN",
-                                Authorization: localStorage.getItem('token')
+                                headers: {
+                                    xsrfHeaderName: "X-XSRF-TOKEN",
+                                    Authorization: localStorage.getItem('token'),
+                                    'Accept': 'application/json'
+                                }                                
                             }).then( response => {
                                 if (response.data.error) {
                                     console.warn(response.data.error)
+                                    setSubmitting(false)
+                                    Swal.fire('Error', 'No se ha podido crear la nueva empresa', 'error')
                                 } else {
                                     console.log('success')
+                                    setSubmitting(false)
+                                    Swal.fire('Creada', 'La empresa ha sido creada. Es necesario que nuestros técnicos realicen la instalación del servicio en su restaurante y que se realice el pago de la suscripción.', 'success')
                                 }
                             } )
                         } )

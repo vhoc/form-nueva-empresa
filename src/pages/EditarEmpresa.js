@@ -4,7 +4,7 @@ import { Formik, Field } from 'formik'
 import BarraTitulo from '../components/BarraTitulo/BarraTitulo'
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
-import FileResizer from "react-image-file-resizer"
+import Swal from 'sweetalert2'
 import Resizer from 'react-image-file-resizer'
 import './EditarEmpresa.css'
 
@@ -16,6 +16,7 @@ const EditarEmpresa = () => {
     const [isLoading, setIsLoading] = useState( true )
     const [empresa, setEmpresa] = useState({})
     const [logoImage, setLogoImage] = useState()
+    const [notifications, setNotifications] = useState( { type: '', message: '' } )
 
     /**
      * Handlers para el cambio de Logo
@@ -26,7 +27,6 @@ const EditarEmpresa = () => {
             const file = event.target.files[0]
             const resized = await resizeFile(file)
             const postReadyImg = dataUriToBlob( resized )
-            //console.log(resized)
             uploadFile( uri, postReadyImg )
         } catch (error) {
             console.error(error)
@@ -43,9 +43,10 @@ const EditarEmpresa = () => {
                 'Authorization': localStorage.getItem('token'),
             },
         }).then( (response) => {
-           console.log(response)
            setLogoImage( response.data.logo_sucursal )
+           Swal.fire('Logo', 'Imagen de logo cambiada.', 'success')
         } ).catch( error => {
+            Swal.fire('Error', 'Hubo un error al intentar cambiar la imagen del logo', 'error')
             console.error(error)
         } )
     }
@@ -86,6 +87,8 @@ const EditarEmpresa = () => {
     }
 
     useEffect( () => {
+
+        // Gets all Empresa data
         const getEmpresa = async ( id ) => {
             try {
                 const response = await axios.get(`https://venka.app/api/empresa/${id}`, {
@@ -103,7 +106,23 @@ const EditarEmpresa = () => {
             }
         }
 
+        // Checks if the Empresa has been installed in the restaurant's server and if it has an active suscription
+        const getEmpresaStatus = async ( id ) => {
+            try {
+                const response = await axios.get(`https://venka.app/api/empresa/${id}/status`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Accept': 'application/json',
+                    }
+                })
+                setNotifications( await response.data )
+            } catch ( error ) {
+                console.log(error)
+            }
+        }
+
         getEmpresa( idEmpresa )
+        
         setIsLoading( false )
 
     }, [isLoading, logoImage] )
@@ -214,10 +233,12 @@ const EditarEmpresa = () => {
                             }).then( response => {
                                 if (response.data.error) {
                                     console.warn(response.data.error)
-                                    setSubmitting(true)
-                                } else {
+                                    setSubmitting(false)
+                                    Swal.fire('Error', 'Hubo un error al intentar guardar los cambios', 'error')
+                                } else {                                    
                                     console.log('success')
-                                    setSubmitting(true)
+                                    setSubmitting(false)
+                                    Swal.fire('Guardado', 'Los cambios han sido guardados en la empresa', 'success')
                                 }
                             } )
                         } )
