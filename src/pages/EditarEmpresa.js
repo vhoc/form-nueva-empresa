@@ -6,6 +6,7 @@ import { faHome } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 import Swal from 'sweetalert2'
 import Resizer from 'react-image-file-resizer'
+import Notifications from "../components/Notifications/Notifications"
 import './EditarEmpresa.css'
 
 const EditarEmpresa = () => {
@@ -16,7 +17,6 @@ const EditarEmpresa = () => {
     const [isLoading, setIsLoading] = useState( true )
     const [empresa, setEmpresa] = useState({})
     const [logoImage, setLogoImage] = useState()
-    const [notifications, setNotifications] = useState( { type: '', message: '' } )
 
     /**
      * Handlers para el cambio de Logo
@@ -104,25 +104,10 @@ const EditarEmpresa = () => {
                 
                 console.log(error)
             }
-        }
-
-        // Checks if the Empresa has been installed in the restaurant's server and if it has an active suscription
-        const getEmpresaStatus = async ( id ) => {
-            try {
-                const response = await axios.get(`https://venka.app/api/empresa/${id}/status`, {
-                    headers: {
-                        'Authorization': localStorage.getItem('token'),
-                        'Accept': 'application/json',
-                    }
-                })
-                setNotifications( await response.data )
-            } catch ( error ) {
-                console.log(error)
-            }
-        }
+        }       
 
         getEmpresa( idEmpresa )
-        
+
         setIsLoading( false )
 
     }, [isLoading, logoImage] )
@@ -131,6 +116,8 @@ const EditarEmpresa = () => {
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
         <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={'/'} linkButtonIcon={faHome} />
+
+            <Notifications idEmpresa={ idEmpresa }/>
 
             <div className='d-flex justify-content-center p-5 w-100'>
 
