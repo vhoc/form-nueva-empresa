@@ -32,10 +32,14 @@ const Notifications = ( { idEmpresa } ) => {
             <>
             {
                 Object.keys(notifications).map( (notification) => {
-                    <Notification />
+                    return <Notification notification={notification}/>
                 })
             }
             </>
+        )
+    } else {
+        return(
+            <><div>(Debug) No hay notificaciones.</div></>
         )
     }
 
