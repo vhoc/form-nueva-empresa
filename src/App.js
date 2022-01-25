@@ -6,6 +6,7 @@ import Index from './pages/Index';
 import LoginForm from './pages/LoginForm';
 import NuevaEmpresa from './pages/NuevaEmpresa';
 import EditarEmpresa from './pages/EditarEmpresa';
+import CentroSoluciones from './pages/CentroSoluciones';
 
 function App() {
 
@@ -36,6 +37,13 @@ function App() {
         <Route path="editar-empresa" element={
           <RequireAuth redirectTo="/login">
             <EditarEmpresa/>
+          </RequireAuth>
+        }
+        />
+
+        <Route path="soluciones" element={
+          <RequireAuth redirectTo="/login">
+            <CentroSoluciones/>
           </RequireAuth>
         }
         />

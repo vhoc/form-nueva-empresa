@@ -25,14 +25,14 @@ const Notifications = ( { idEmpresa } ) => {
 
         getEmpresaStatus( idEmpresa )
 
-    }, [] )
+    }, [idEmpresa] )
 
     if ( notifications ) {
         return (
             <>
             {
                 Object.keys(notifications).map( (notification) => {
-                    return <Notification notification={notification}/>
+                    return <Notification key={notification} notification={notifications[notification]} idEmpresa={idEmpresa}/>
                 })
             }
             </>
