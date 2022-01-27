@@ -6,12 +6,13 @@ const CentroSoluciones = () => {
 
     const location = useLocation()
     const solutionType = location.state.solutionType
+    const backRoute = location.state.backRoute
     const empresaId = location.state.empresaId
 
     if( solutionType === 'suscription' ) {
 
         return (
-            <Renovar empresaId={empresaId}/>
+            <Renovar empresaId={empresaId} backRoute={backRoute}/>
         )
 
     }

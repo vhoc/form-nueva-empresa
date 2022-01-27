@@ -32,7 +32,7 @@ const Notifications = ( { idEmpresa } ) => {
             <>
             {
                 Object.keys(notifications).map( (notification) => {
-                    return <Notification key={notification} notification={notifications[notification]} idEmpresa={idEmpresa}/>
+                    return <Notification key={notification} notification={notifications[notification]} idEmpresa={idEmpresa} />
                 })
             }
             </>

@@ -9,7 +9,8 @@ import { InputGroup, FormControl } from "react-bootstrap"
 import { Formik, Field, Form } from 'formik'
 import Cards from 'react-credit-cards'
 import 'react-credit-cards/es/styles-compiled.css';
-const Renovar = ( { empresaId } ) => {
+
+const Renovar = ( { empresaId, backRoute = '/' } ) => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [empresa, setEmpresa] = useState()
@@ -64,7 +65,7 @@ const Renovar = ( { empresaId } ) => {
         
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
-            <BarraTitulo titulo={ `Renovación de Suscripción` } linkButton={'/'} linkButtonIcon={faHome} />
+            <BarraTitulo titulo={ `Renovación de Suscripción` } linkButton={backRoute} linkButtonIcon={faHome} />
 
             {isLoading ? (<div>Cargando...</div>) :
             

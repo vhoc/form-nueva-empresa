@@ -7,6 +7,8 @@ import LoginForm from './pages/LoginForm';
 import NuevaEmpresa from './pages/NuevaEmpresa';
 import EditarEmpresa from './pages/EditarEmpresa';
 import CentroSoluciones from './pages/CentroSoluciones';
+import Suscripciones from './pages/Suscripciones/Suscripciones';
+import Renovar from './pages/Suscripciones/Renovar';
 
 function App() {
 
@@ -44,6 +46,13 @@ function App() {
         <Route path="soluciones" element={
           <RequireAuth redirectTo="/login">
             <CentroSoluciones/>
+          </RequireAuth>
+        }
+        />
+
+        <Route path="suscripciones" element={
+          <RequireAuth redirectTo="/login">
+            <Suscripciones/>
           </RequireAuth>
         }
         />

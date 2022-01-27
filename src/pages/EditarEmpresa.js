@@ -14,6 +14,7 @@ const EditarEmpresa = () => {
     // useLocation es para recibir un parámetro desde otro componente enviado por useNavigate.
     const location = useLocation()
     const idEmpresa = location.state.id
+    const backRoute = location.state.backRoute
     const [isLoading, setIsLoading] = useState( true )
     const [empresa, setEmpresa] = useState({})
     const [logoImage, setLogoImage] = useState()
@@ -115,9 +116,9 @@ const EditarEmpresa = () => {
     return (
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
-        <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={'/'} linkButtonIcon={faHome} />
+        <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={backRoute} linkButtonIcon={faHome} />
 
-            <Notifications idEmpresa={ idEmpresa }/>
+            <Notifications idEmpresa={ idEmpresa } backRoute={'/editar-empresa'}/>
 
             <div className='d-flex justify-content-center p-5 w-100'>
 

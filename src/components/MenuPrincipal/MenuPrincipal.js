@@ -20,7 +20,7 @@ const MenuPrincipal = () => {
             <div className="d-flex flex-wrap p-3 gap-3">
                 <Link to="/nueva-empresa"><BotonMenu titulo="Nueva Empresa" variant="info" icon={ faPlus }/></Link>
                 <BotonMenu titulo="Soporte" variant="warning" icon={ faQuestion }/>
-                <BotonMenu titulo="Suscripciones" variant="success" icon={ faShoppingCart }/>
+                <Link to="/suscripciones"><BotonMenu titulo="Suscripciones" variant="success" icon={ faShoppingCart }/></Link>
                 <BotonMenu titulo="Salir" variant="primary" icon={ faSignOutAlt } logoutBtn={true} />
             </div>
         
