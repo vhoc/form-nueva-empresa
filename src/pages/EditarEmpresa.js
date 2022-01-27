@@ -116,7 +116,7 @@ const EditarEmpresa = () => {
     return (
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
-        <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={backRoute} linkButtonIcon={faHome} />
+        <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={"/"} linkButtonIcon={faHome} />
 
             <Notifications idEmpresa={ idEmpresa } />
 
