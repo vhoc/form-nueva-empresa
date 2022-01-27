@@ -8,7 +8,7 @@ import NuevaEmpresa from './pages/NuevaEmpresa';
 import EditarEmpresa from './pages/EditarEmpresa';
 import CentroSoluciones from './pages/CentroSoluciones';
 import Suscripciones from './pages/Suscripciones/Suscripciones';
-import Renovar from './pages/Suscripciones/Renovar';
+import Soporte from './pages/Soporte/Soporte';
 
 function App() {
 
@@ -53,6 +53,13 @@ function App() {
         <Route path="suscripciones" element={
           <RequireAuth redirectTo="/login">
             <Suscripciones/>
+          </RequireAuth>
+        }
+        />
+
+        <Route path="soporte" element={
+          <RequireAuth redirectTo="/login">
+            <Soporte/>
           </RequireAuth>
         }
         />

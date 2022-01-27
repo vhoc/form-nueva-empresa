@@ -118,7 +118,7 @@ const EditarEmpresa = () => {
 
         <BarraTitulo titulo={ `Empresa: ${empresa.nomcom_emp || 'cargando...'}` } linkButton={backRoute} linkButtonIcon={faHome} />
 
-            <Notifications idEmpresa={ idEmpresa } backRoute={'/editar-empresa'}/>
+            <Notifications idEmpresa={ idEmpresa } />
 
             <div className='d-flex justify-content-center p-5 w-100'>
 
