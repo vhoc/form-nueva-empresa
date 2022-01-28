@@ -1,3 +1,7 @@
 .text-left {
     text-align: start;
 }
+
+.loading-text {
+    color: #73b73e;
+}

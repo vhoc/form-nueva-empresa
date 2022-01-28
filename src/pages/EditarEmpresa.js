@@ -7,6 +7,7 @@ import axios from "axios"
 import Swal from 'sweetalert2'
 import Resizer from 'react-image-file-resizer'
 import Notifications from "../components/Notifications/Notifications"
+import Loading from "../components/Loading"
 import './EditarEmpresa.css'
 
 const EditarEmpresa = () => {
@@ -99,7 +100,7 @@ const EditarEmpresa = () => {
                     }
                 })
                 setEmpresa( await response.data )
-                
+                setIsLoading( false )
     
             } catch ( error ) {
                 
@@ -108,8 +109,6 @@ const EditarEmpresa = () => {
         }       
 
         getEmpresa( idEmpresa )
-
-        setIsLoading( false )
 
     }, [isLoading, logoImage] )
 
@@ -122,7 +121,7 @@ const EditarEmpresa = () => {
 
             <div className='d-flex justify-content-center p-5 w-100'>
 
-                {isLoading ? (<div>Cargando...</div>) : 
+                { isLoading ? <Loading /> :
                     
                     <Formik
 
