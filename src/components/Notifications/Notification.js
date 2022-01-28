@@ -9,6 +9,7 @@ const Notification = ({ notification, idEmpresa }) => {
     const redirectTo = useNavigate()
 
     const solution = ( solutionType ) => {
+        
         if ( solutionType === 'suscription' ) {
             redirectTo( `/soluciones`, {
                 state: {
@@ -16,6 +17,10 @@ const Notification = ({ notification, idEmpresa }) => {
                     empresaId: idEmpresa
                 }
             })
+        }
+
+        if ( solutionType === 'installation' ) {
+            redirectTo( `/soporte` )
         }
 
     }

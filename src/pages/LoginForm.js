@@ -109,6 +109,7 @@ const LoginForm = () => {
                         type={'email'}
                         placeholder={'E-mail'}
                         onChange={handleInputValues}
+                        autoComplete="on"
                     />
                 </Form.Group>
                 
@@ -118,6 +119,7 @@ const LoginForm = () => {
                         type={'password'}
                         placeholder={'Contraseña'}
                         onChange={handleInputValues}
+                        autoComplete="on"
                     />
                 </Form.Group>
 
