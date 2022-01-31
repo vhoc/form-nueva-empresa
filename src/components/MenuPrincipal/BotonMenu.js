@@ -1,12 +1,12 @@
 import { Button } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { logOut } from '../../Helpers'
 import './BotonMenu.css'
 
 const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
 
-    const redirectTo = useNavigate()
+    //const redirectTo = useNavigate()
 
     return (
         <>
@@ -17,7 +17,8 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
                 {
                    const logOutResult = await logOut()
                     if (logOutResult === 200 ) {
-                        redirectTo( '/login', { replace: true } )
+                        //redirectTo( '/login', { replace: true } )
+                        window.location.href = "https://venka.app/"
                     } else {
                         console.error( logOutResult )
                     }
