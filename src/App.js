@@ -9,6 +9,7 @@ import EditarEmpresa from './pages/EditarEmpresa';
 import CentroSoluciones from './pages/CentroSoluciones';
 import Suscripciones from './pages/Suscripciones/Suscripciones';
 import Soporte from './pages/Soporte/Soporte';
+import Usuario from './pages/Usuario/Usuario';
 
 function App() {
 
@@ -16,7 +17,6 @@ function App() {
     <div className="App">
       <Header
         title="Venka"
-        description="Bienvenido, aquí podrá ver y administrar sus empresas, así como renovar la suscripción de cada una de ellas."
       />
 
       <Routes>
@@ -60,6 +60,13 @@ function App() {
         <Route path="soporte" element={
           <RequireAuth redirectTo="/login">
             <Soporte/>
+          </RequireAuth>
+        }
+        />
+
+        <Route path="usuario" element={
+          <RequireAuth redirectTo="/login">
+            <Usuario/>
           </RequireAuth>
         }
         />

@@ -1,6 +1,6 @@
 import './Header.css'
 
-const Header = ({ title, description }) => {
+const Header = ({ title }) => {
 
     return (
         <div className="jumbotron jumbotron-fluid d-flex align-items-center px-0">

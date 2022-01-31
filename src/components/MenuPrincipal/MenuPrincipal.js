@@ -16,7 +16,7 @@ const MenuPrincipal = () => {
 
         <>
         
-            <BarraTitulo titulo={ `Bienvenido, ${usuario}` } />
+            <BarraTitulo titulo={ `Bienvenido, ${ usuario }` } usuario={true} />
 
             <div className="d-flex flex-wrap p-3 gap-3">
                 <Link to="/nueva-empresa"><BotonMenu titulo="Nueva Empresa" variant="info" icon={ faPlus }/></Link>
