@@ -1,4 +1,13 @@
 .jumbotron {
     background-color: #73b73e;
     text-align: initial !important;
+    height: 90px;
+}
+
+.lead {
+    font-size: xx-large;
+}
+
+p, h1 {
+    margin: 0;
 }

@@ -24,6 +24,7 @@ const BotonMenu = ( {titulo, variant, icon, logoutBtn} ) => {
                     }
                 }
             } }
+            
             className="boton-menu d-flex flex-column align-items-center justify-content-center"
         >
             <FontAwesomeIcon icon={ icon } />
