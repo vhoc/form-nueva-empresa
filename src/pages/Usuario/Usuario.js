@@ -55,6 +55,7 @@ const Usuario = () => {
 
                         initialValues={
                             {
+                                id: userId,
                                 name: user.name,
                                 email: user.email
                             }
@@ -70,8 +71,25 @@ const Usuario = () => {
                             if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ) {
                                 errors.email = 'El correo tiene un formato inválido.';
                             }
-                                return errors;
+
+                            if ( values.password && values.confirm_password ) {
+                                if ( values.password !== values.confirm_password ) {
+                                    errors.password = 'Las contraseñas no coinciden.';
+                                    errors.confirm_password = 'Las contraseñas no coinciden.';
+                                }
                             }
+
+                            if ( !values.password && values.confirm_password ) {
+                                errors.password = 'Si desea cambiar la contraseña, debe especificarla aquí.';
+                            }
+
+                            if ( values.password && ! values.confirm_password ) {
+                                errors.confirm_password = 'Si desea cambiar la contraseña, debe confirmarla en éste campo.';
+                            }
+                            
+                            return errors;
+
+                            }                           
                             
                         }
 
@@ -80,7 +98,7 @@ const Usuario = () => {
                             axios.defaults.withCredentials = true;
 
                             axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
-                                axios.post('https://venka.app/api/usuario/', values, {
+                                axios.put('https://venka.app/api/usuario/', values, {
                                     headers: {
                                         xsrfHeaderName: "X-XSRF-TOKEN",
                                         'Authorization': localStorage.getItem('token'),
@@ -95,7 +113,7 @@ const Usuario = () => {
                                     } else {                                    
                                         console.log('success')
                                         setSubmitting(false)
-                                        Swal.fire('Guardado', 'Los cambios han sido guardados en la usuario', 'success')
+                                        Swal.fire('Guardado', 'Los cambios han sido guardados en el usuario', 'success')
                                     }
                                 } )
                             } )
@@ -126,7 +144,7 @@ const Usuario = () => {
                                     value={values.name}
                                     placeholder='Su nombre y apellidos.'
                                 />
-                                <small className='form-text text-red'>{ errors.nomcom_emp && touched.nomcom_emp && errors.nomcom_emp }</small>
+                                <small className='form-text text-red'>{ errors.name && touched.name && errors.name }</small>
                                 <br />
                             </div>
 
@@ -147,65 +165,13 @@ const Usuario = () => {
                                     value={values.email}
                                     placeholder='Su nombre y apellidos.'
                                 />
-                                <small className='form-text text-red'>{ errors.nomcom_emp && touched.nomcom_emp && errors.nomcom_emp }</small>
+                                <small className='form-text text-red'>{ errors.email && touched.email && errors.email }</small>
                                 <br />
                             </div>
 
-                            <button className='btn btn-primary my-3' disabled={isSubmitting} type='submit'>
-                                Enviar
-                            </button>
-
-                        </form>
-                    ) }
-
-                    </Formik>
-
-                    <hr className="m-5 border"/>
-                    <h3>Cambio de Contraseña</h3>
-
-                    <Formik
-                        enableReinitialize
-
-                        initialValues={
-                            {
-                                password: '',
-                                confirm_password: ''
-                            }
-                        }
-
-                        onSubmit={ (values, {setSubmitting}) => {
-                            setSubmitting(true)
-                            axios.defaults.withCredentials = true;
-
-                            axios.get('https://venka.app/sanctum/csrf-cookie').then( () => {
-                                axios.post('https://venka.app/api/usuario/', values, {
-                                    headers: {
-                                        xsrfHeaderName: "X-XSRF-TOKEN",
-                                        'Authorization': localStorage.getItem('token'),
-                                        'Accept': 'application/json'
-                                    }
-                                    
-                                }).then( response => {
-                                    if (response.data.error) {
-                                        console.warn(response.data.error)
-                                        setSubmitting(false)
-                                        Swal.fire('Error', 'Hubo un error al intentar guardar los cambios', 'error')
-                                    } else {                                    
-                                        console.log('success')
-                                        setSubmitting(false)
-                                        Swal.fire('Guardado', 'Los cambios han sido guardados en la usuario', 'success')
-                                    }
-                                } )
-                            } )
-
-                            
-                        }}
-
-                    >
-
-                    { ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
-
-                        <form onSubmit={handleSubmit} className='col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 text-center'>
+                            <hr className="m-5 border"/>
+                            <h3>Cambio de Contraseña</h3>
+                            <small>Si no desea cambiar la contraseña, deje los espacios en blanco.</small>
 
                             {/**
                              * INPUT-TEXT
@@ -214,17 +180,15 @@ const Usuario = () => {
                             <div className='form-group text-left'>
                                 <label htmlFor='inputName'>Nueva Contraseña</label>
                                 <input
-                                    required
+                                    autoComplete="true"
                                     className='form-control'
                                     id="inputPassword"
                                     type="password"
                                     name="password"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    
-                                    
                                 />
-                                
+                                <small className='form-text text-red'>{ errors.password && touched.password && errors.password }</small>
                                 <br />
                             </div>
 
@@ -235,28 +199,28 @@ const Usuario = () => {
                             <div className='form-group text-left'>
                                 <label htmlFor='inputEmail'>Confirmar Contraseña Nueva</label>
                                 <Field
-                                    required
+                                    autoComplete="true"
                                     className='form-control'
                                     id="inputConfirmPassword"
                                     type="password"
                                     name="confirm_password"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    
-                                    
                                 />
-                                
+                                <small className='form-text text-red'>{ errors.confirm_password && touched.confirm_password && errors.confirm_password }</small>                                
                                 <br />
                             </div>
 
-                            <button className='btn btn-primary my-3' disabled={isSubmitting} type='submit'>
-                                Cambiar Contraseña
+                            <button className='btn btn-success my-3' disabled={isSubmitting} type='submit'>
+                                Guardar cambios
                             </button>
 
                         </form>
                     ) }
 
                     </Formik>
+
+                    
 
                 </div>
 
