@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState , useRef } from "react"
 import BarraTitulo from "../../components/BarraTitulo/BarraTitulo"
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -9,14 +9,52 @@ import { InputGroup, FormControl } from "react-bootstrap"
 import { Formik, Field, Form } from 'formik'
 import Cards from 'react-credit-cards'
 import 'react-credit-cards/es/styles-compiled.css';
+import { conektaHelper } from '../../Helpers';
+import Swal from 'sweetalert2';
+import MaskedInput from 'react-maskedinput';
 
-const Renovar = ( { empresaId, backRoute = '/' } ) => {
+const Renovar = ( { empresaId } ) => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [empresa, setEmpresa] = useState()
     const [ultimaSuscripcion, setUltimaSuscripcion] = useState('No hay registro')
     const [vencimiento, setVencimiento] = useState('No hay registro')
     const [status, setStatus] = useState(true)
+    const formikRef = useRef();
+
+    const conektaSuccessResponseHandler = async (token) => {
+        
+        if(formikRef) {
+        console.log(formikRef.current.values.paquete);
+        }
+      
+        Swal.fire('Token', 'Token creado con exito'+token.id, 'success')
+        try {
+            const post = { token: token.id, empresa: empresaId , email: localStorage.getItem('userEmail'), paquete: formikRef.current.values.paquete, name: formikRef.current.values.name } 
+            const res = await axios.post(`https://venka.app/api/subscribe`, post,{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Accept': 'application/json',
+                }
+            })
+            
+           console.log( await res.data);
+           
+
+           
+       } catch ( error ) {
+        
+        Swal.fire('Error', error, 'error')
+        
+       }
+        
+
+    }
+
+    const errorCallback = (error) => {
+       
+        Swal.fire('Error', error.message, 'error')
+    }
 
 
     useEffect(() => {
@@ -61,11 +99,26 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
        getEmpresa( empresaId )
    }, [empresaId])
 
+    useEffect(() => {
+        const script = document.createElement('script');
+    
+        script.src = "https://cdn.conekta.io/js/latest/conekta.js";
+        script.async = true;
+    
+        document.body.appendChild(script);
+    
+        return () => {
+        document.body.removeChild(script);
+        }
+    }, []);
+
+   
+
     return (
         
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
-            <BarraTitulo titulo={ `Renovación de Suscripción` } linkButton={backRoute} linkButtonIcon={faHome} />
+            <BarraTitulo titulo={ `Renovación de Suscripción` } linkButton={'/'} linkButtonIcon={faHome} />
 
             {isLoading ? (<div>Cargando...</div>) :
             
@@ -113,6 +166,7 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
                         <h3>Elija un paquete de suscripción</h3>
                         
                         <Formik
+                            innerRef={formikRef}
                             enableReinitialize={true}
 
                             // INPUTS' INITIAL VALUES
@@ -142,11 +196,15 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
                                 // Fecha de Vencimiento de la Tarjeta
                                 if ( !values.expiry ) {
                                     errors.expiry = 'Requerido';
-                                } else if (
+                                } 
+                                
+                                // Se borro esta validación porque el componente de inputmask ya valida la fecha
+                                
+                                /*else if (
                                     !/\b(\d){4}\b/g.test(values.expiry)
                                 ) {
                                     errors.expiry = 'Solo se permiten entre 4 dígitos.';
-                                }
+                                }*/
 
                                 // Nombre del cuentahabiente
                                 if ( !values.name ) {
@@ -156,6 +214,11 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
                                 ) {
                                     errors.name = 'Se permiten de 3 a 120 caracteres';
                                 }
+
+                                 // cvc
+                                 if ( !values.cvc ) {
+                                    errors.cvc = 'Requerido';
+                                } 
                                 
                                 return errors;
 
@@ -163,7 +226,10 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
 
                             // SUBMIT EVENT HANDLER
                             onSubmit={ async values => {
-                                console.log(values)
+
+                               let arr = values.expiry.split('/');
+                               conektaHelper.tokenize(values.number, values.name,arr[0],arr[1],values.cvc, conektaSuccessResponseHandler, errorCallback);
+
                             } }
 
                         >
@@ -174,8 +240,8 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
                             <>
                                 
 
-                                <Form className="d-flex flex-column">
-                                    <Field name="paquete" as="select" className="form-control mb-3">
+                                <Form className="d-flex flex-column" >
+                                    <Field name="paquete" as="select" className="form-control mb-3" >
                                         <option value="1m">1 mes x $900</option>
                                         <option value="6m">6 meses x $5,100 ($850.00 mensuales)</option>
                                         <option value="1y">12 meses x $8,900 ($741.66 mensuales)</option>
@@ -194,28 +260,66 @@ const Renovar = ( { empresaId, backRoute = '/' } ) => {
 
                                         <div className="col-12 col-lg-5 my-auto">
 
-                                            <input
-                                                className="form-control"
+                                           
+                                               {/* 
+                                               <MaskedInput 
+                                                 className="form-control mb-2"
+                                                 placeholder="Número de tarjeta de crédito."
+                                                 mask="1111 1111 1111 1111" 
+                                                 name="number"
+                                                 size="22"
+                                                 inputmode="numeric" 
+                                                 onChange={handleChange}
+                                                 onBlur={handleBlur}
+                                                />
+                                               */} 
+                                           
+
+                                           <input
+                                                className="form-control mb-2"
                                                 type="number"
                                                 name="number"
                                                 placeholder="Número de tarjeta de crédito."
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                             />
+                                           
+                                            
                                             <small className='form-text text-red'>{ errors.number && touched.number && errors.number }</small>
 
-                                            <input
-                                                className="form-control"
+                                            {/*<input
+                                                className="form-control mb-2"
                                                 type="number"
                                                 name="expiry"
                                                 placeholder="Fecha de Vencimiento."
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                            />
+                                            />*/}
+
+                                                <MaskedInput 
+                                                 className="form-control mb-2"
+                                                 placeholder="Fecha de Vencimiento."
+                                                 mask="11/11" 
+                                                 name="expiry"
+                                                 size="5"
+                                                 onChange={handleChange}
+                                                 onBlur={handleBlur}
+                                                />  
+
                                             <small className='form-text text-red'>{ errors.expiry && touched.expiry && errors.expiry }</small>
 
                                             <input
-                                                className="form-control"
+                                                className="form-control mb-2"
+                                                type="number"
+                                                name="cvc"
+                                                placeholder="cvc"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            />
+                                            <small className='form-text text-red'>{ errors.cvc && touched.cvc && errors.cvc }</small>
+
+                                            <input
+                                                className="form-control mb-2"
                                                 type="text"
                                                 name="name"
                                                 placeholder="Nombre del cuentahabiente"
