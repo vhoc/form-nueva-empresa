@@ -22,7 +22,7 @@ const MenuPrincipal = () => {
                 <Link to="/nueva-empresa"><BotonMenu titulo="Nueva Empresa" variant="info" icon={ faPlus }/></Link>
                 <Link to="/soporte"><BotonMenu titulo="Soporte" variant="warning" icon={ faQuestion }/></Link>
                 <Link to="/suscripciones"><BotonMenu titulo="Suscripciones" variant="success" icon={ faShoppingCart }/></Link>
-                <BotonMenu titulo="Salir" variant="primary" icon={ faSignOutAlt } logoutBtn={true} />
+                <BotonMenu titulo="Salir" variant="secondary" icon={ faSignOutAlt } logoutBtn={true} />
             </div>
         
         </>
