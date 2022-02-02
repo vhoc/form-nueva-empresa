@@ -51,7 +51,7 @@ export const logOut = async () => {
 
 export const conektaHelper = {
     initConekta: () => {
-      window.Conekta.setPublicKey(window.env.REACT_APP_CONEKTA_KEY)
+      window.Conekta.setPublicKey(window.event.REACT_APP_CONEKTA_KEY)
     },
     getCardBrand: (cardNumber) => {
       

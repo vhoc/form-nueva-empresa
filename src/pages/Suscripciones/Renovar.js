@@ -104,6 +104,8 @@ const Renovar = ( { empresaId } ) => {
     
         script.src = "https://cdn.conekta.io/js/latest/conekta.js";
         script.async = true;
+        script.setAttribute("data-conekta-public-key", window.env.REACT_APP_CONEKTA_KEY);
+        console.log(script);
     
         document.body.appendChild(script);
     
