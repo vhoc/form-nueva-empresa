@@ -18,8 +18,8 @@ const BarraTitulo = ( {titulo, linkButton, linkButtonIcon, usuario} ) => {
 
     return (
 
-        <div className="d-flex container-fluid bg-section-title p-2 justify-content-between">
-            <h3 className='px-4'>{ titulo }</h3>
+        <div className="d-flex container-fluid bg-section-title p-2 align-items-center justify-content-between">
+            <h3 className='px-4 m-0'>{ titulo }</h3>
             { usuario &&
                 <Button onClick={() => { handleLoadUserOptions(localStorage.getItem('userId')) }} ><FontAwesomeIcon icon={faUserEdit}></FontAwesomeIcon> Opciones de Usuario</Button>
             }
