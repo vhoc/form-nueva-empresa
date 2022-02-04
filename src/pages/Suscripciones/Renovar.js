@@ -22,13 +22,18 @@ const Renovar = ( { empresaId } ) => {
     const [status, setStatus] = useState(true)
     const formikRef = useRef();
 
+    
+
     const conektaSuccessResponseHandler = async (token) => {
+
+       
+       
         
         if(formikRef) {
         console.log(formikRef.current.values.paquete);
         }
       
-        Swal.fire('Token', 'Token creado con exito'+token.id, 'success')
+        
         try {
             const post = { token: token.id, empresa: empresaId , email: localStorage.getItem('userEmail'), paquete: formikRef.current.values.paquete, name: formikRef.current.values.name } 
             const res = await axios.post(`https://venka.app/api/subscribe`, post,{
@@ -37,14 +42,39 @@ const Renovar = ( { empresaId } ) => {
                     'Accept': 'application/json',
                 }
             })
+
+           if(await res.data.status === "success") {
+           
             
-           console.log( await res.data);
+            Swal.fire('Suscripción renovada', res.data.data, 'success')
+            Swal.fire({
+                title: 'Suscripción renovada',
+                html: res.data.data,
+                icon: 'success',
+                allowOutsideClick: true,
+                showCancelButton: false, // There won't be any cancel button
+                showConfirmButton: true, // There won't be any confirm button
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                
+                  formikRef.current.resetForm();
+                } 
+              });
+
+              formikRef.current.resetForm();
+           } else {
+          
+            
+            Swal.fire('Problema con suscripción', res.data.message, 'error')
+           }
            
 
            
        } catch ( error ) {
+       
+        Swal.fire('Error', error.message_to_purchaser, 'error');
         
-        Swal.fire('Error', error, 'error')
         
        }
         
@@ -52,14 +82,16 @@ const Renovar = ( { empresaId } ) => {
     }
 
     const errorCallback = (error) => {
+      
+        Swal.fire('Error', error.message_to_purchaser, 'error');
+        
        
-        Swal.fire('Error', error.message, 'error')
     }
 
 
     useEffect(() => {
         const getEmpresa = async ( id ) => {
-            setIsLoading(true)
+           
 
            try {
                 const response = await axios.get(`https://venka.app/api/empresa/${id}`, {
@@ -105,8 +137,7 @@ const Renovar = ( { empresaId } ) => {
         script.src = "https://cdn.conekta.io/js/latest/conekta.js";
         script.async = true;
         script.setAttribute("data-conekta-public-key", window.env.REACT_APP_CONEKTA_KEY);
-        console.log(script);
-    
+       
         document.body.appendChild(script);
     
         return () => {
@@ -121,6 +152,8 @@ const Renovar = ( { empresaId } ) => {
         <div className="container-fluid d-flex flex-column align-items-center p-0">
 
             <BarraTitulo titulo={ `Renovación de Suscripción` } linkButton={'/'} linkButtonIcon={faHome} />
+
+          
 
             {isLoading ? (<div>Cargando...</div>) :
             
@@ -229,8 +262,93 @@ const Renovar = ( { empresaId } ) => {
                             // SUBMIT EVENT HANDLER
                             onSubmit={ async values => {
 
-                               let arr = values.expiry.split('/');
-                               conektaHelper.tokenize(values.number, values.name,arr[0],arr[1],values.cvc, conektaSuccessResponseHandler, errorCallback);
+                                Swal.fire({
+                                    title: 'Está a punto de renovar la suscripción.',
+                                    html: '<h2><b>¿Está seguro?</b></h2>',
+                                    icon: 'question',
+                                    allowOutsideClick: false,
+                                    showCancelButton: true, // There won't be any cancel button
+                                    showConfirmButton: true, // There won't be any confirm button
+                                    confirmButtonText: 'Si, renovar',
+                                    cancelButtonText: 'No, cancelar',
+                                    
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: 'Procesando...',
+                                            html: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 560 288" style="enable-background:new 0 0 560 288;" xml:space="preserve">
+                                       <style type="text/css">
+                                           .st0{fill:none;stroke:#29ABE2;stroke-miterlimit:10;stroke-dasharray:12.2685,12.2685;}
+                                           .st1{fill:#29ABE2;}
+                                           .st2{fill:#FFFFFF;}
+                                       </style>
+                                       <g>
+                                           <circle class="st0" cx="280" cy="144" r="82">
+                                       
+                                       <animateTransform attributeName="transform"
+                                           attributeType="XML"
+                                           type="rotate"
+                                           from="0 280 144"
+                                           to="360 280 144"
+                                           dur="10s"
+                                           repeatCount="indefinite" />
+                                       </circle>
+                                       </g>
+                                       
+                                       
+                                       <circle class="st1" cx="280" cy="144" r="58.4"/>
+                                       
+                                       
+                                       <path class="st2" d="M263.5,156.8L263.5,156.8c-2.4,0-4.5-2-4.5-4.5V132c0-2.4,2-4.5,4.5-4.5l0,0c2.4,0,4.5,2,4.5,4.5v20.4
+                                           C268,154.8,266,156.8,263.5,156.8z">
+                                       
+                                           <animateTransform attributeName="transform"
+                                               attributeType="XML"
+                                               type="translate"
+                                               dur="1s"
+                                               values="0,10;0,-10;0,10"
+                                               repeatCount="indefinite"/>
+                                       </path>
+                                       
+                                       <path class="st2" d="M280,156.8L280,156.8c-2.4,0-4.5-2-4.5-4.5V132c0-2.4,2-4.5,4.5-4.5l0,0c2.4,0,4.5,2,4.5,4.5v20.4
+                                           C284.5,154.8,282.5,156.8,280,156.8z">
+                                       
+                                           <animateTransform attributeName="transform"
+                                               attributeType="XML"
+                                               type="translate"
+                                               dur="1s"
+                                               values="0,10;0,-10;0,10"
+                                               repeatCount="indefinite"
+                                               begin="0.1s"/>
+                                       </path>
+                                       
+                                       <path class="st2" d="M296.8,156.8L296.8,156.8c-2.4,0-4.5-2-4.5-4.5V132c0-2.4,2-4.5,4.5-4.5h0c2.4,0,4.5,2,4.5,4.5v20.4
+                                           C301.2,154.8,299.2,156.8,296.8,156.8z">
+                                       
+                                           <animateTransform attributeName="transform"
+                                               attributeType="XML"
+                                               type="translate"
+                                               dur="1s"
+                                               values="0,10;0,-10;0,10"
+                                               repeatCount="indefinite"
+                                               begin=".2s"/>
+                                       </path>
+                                       </svg>`,
+                                            allowOutsideClick: false,
+                                            showCancelButton: false, // There won't be any cancel button
+                                            showConfirmButton: false, // There won't be any confirm button
+                                            onBeforeOpen: () => {
+                                                Swal.showLoading()
+                                            },
+                                        });
+                                       let arr = values.expiry.split('/');
+                                       conektaHelper.tokenize(values.number, values.name,arr[0],arr[1],values.cvc, conektaSuccessResponseHandler, errorCallback);
+                                    } 
+                                  });
+                                
+                                
+                              
 
                             } }
 
@@ -350,7 +468,6 @@ const Renovar = ( { empresaId } ) => {
             
             }
 
-            
 
         </div>
 
