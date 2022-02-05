@@ -87,6 +87,13 @@ const LoginForm = () => {
         }
     }
 
+    /**
+     * DISABLE THIS ENTIRE COMPONENT.
+     */
+    useEffect( () => {
+        window.location.href = "https://venka.app/"
+    } )
+
     useEffect(() => {
         if ( auth === true ) {
             goTo("/", { replace: true })
