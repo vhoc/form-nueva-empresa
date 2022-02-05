@@ -91,7 +91,7 @@ const LoginForm = () => {
      * DISABLE THIS ENTIRE COMPONENT.
      */
     useEffect( () => {
-        window.location.href = "https://venka.app/"
+        window.location.href = "https://venka.app/login"
     } )
 
     useEffect(() => {
