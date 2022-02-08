@@ -5,6 +5,8 @@ import BarraTitulo from "../../components/BarraTitulo/BarraTitulo"
 import axios from 'axios'
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import Loading from '../../components/Loading'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const Suscripciones = () => {
 
@@ -69,7 +71,7 @@ const Suscripciones = () => {
                             {empresas.map( (empresa) => (
                                 <tr key={empresa.id}>
                                     <td className='text-left'>{empresa.nomcom_emp}</td>
-                                    <td>{empresa.status_emp >= 1 ? 'Activa' : 'Suspendida'}</td>
+                                    <td>{empresa.status_emp >= 1 ? <FontAwesomeIcon className="colorGreen" icon={ faCheck } size='sm'/> : <FontAwesomeIcon className="colorRed" icon={ faTimes } size='sm'/>}</td>
                                     <td>{empresa.fecha_last_pay}</td>
                                     <td>{empresa.fecha_venc}</td>
                                     <td><Button variant='success' size='sm' onClick={ () => { handleRenewButton(empresa.id) } }>Renovar</Button></td>

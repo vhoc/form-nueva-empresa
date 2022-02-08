@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import Loading from '../Loading'
 import BarraTitulo from '../BarraTitulo/BarraTitulo'
@@ -59,8 +59,8 @@ const EmpresasTable = () => {
                             <tr>
                                 <th>Nombre comercial</th>
                                 <th>Status</th>
-                                <th>Último pago</th>
-                                <th>Expiración</th>                            
+                                <th className='d-none d-md-table-cell'>Último pago</th>
+                                <th className='d-none d-md-table-cell'>Expiración</th>                            
                                 <th>Acciones</th>
                             </tr>
                         </thead>                
@@ -69,9 +69,9 @@ const EmpresasTable = () => {
                             {empresas.map( (empresa) => (
                                 <tr key={empresa.id}>
                                     <td className='text-left'>{empresa.nomcom_emp}</td>
-                                    <td>{empresa.status_emp >= 1 ? 'Activa' : 'Suspendida'}</td>
-                                    <td>{empresa.fecha_last_pay}</td>
-                                    <td>{empresa.fecha_venc}</td>
+                                    <td>{empresa.status_emp >= 1 ? <FontAwesomeIcon className="colorGreen" icon={ faCheck } size='sm'/> : <FontAwesomeIcon className="colorRed" icon={ faTimes } size='sm'/>}</td>
+                                    <td className='d-none d-md-table-cell'>{empresa.fecha_last_pay}</td>
+                                    <td className="d-none d-md-table-cell">{empresa.fecha_venc}</td>
                                     <td><Button variant='warning' size='sm' onClick={ () => { handleEditButton( empresa.id ) } }><FontAwesomeIcon icon={ faPencilAlt } size='sm'/></Button></td>
                                 </tr>
                             ) )}
